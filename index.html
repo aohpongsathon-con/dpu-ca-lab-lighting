@@ -17,7 +17,7 @@
 </script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'IBM Plex Sans Thai','Inter',-apple-system,sans-serif}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root{
   --sky:#9BC4F0;--sky2:#B8D5F5;--sky3:#D0E8FF;
   --violet:#5B10E8;--violet2:#7B35F5;--violet3:#3D00C4;
@@ -36,9 +36,11 @@ html[data-theme="light"]{
   --border:rgba(106,27,255,.18);--border2:rgba(10,10,35,.1);
   color-scheme:light;
 }
-body{background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;transition:background .3s ease,color .3s ease;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh;min-height:100svh;transition:background .3s ease,color .3s ease;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;background:none;border:none;color:inherit}
+button,input,select,textarea{font:inherit;max-width:100%}
+img,video{max-width:100%;height:auto}
 .display{font-family:'Chakra Petch','IBM Plex Sans Thai',sans-serif}
 .mono{font-family:'IBM Plex Mono',monospace;letter-spacing:.1em}
 :focus-visible{outline:2px solid var(--violet2);outline-offset:3px;border-radius:4px}
@@ -54,7 +56,7 @@ button{font-family:inherit;cursor:pointer;background:none;border:none;color:inhe
 
 /* ---------- topnav ---------- */
 .topnav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;
-  gap:14px;padding:14px 24px;background:rgba(4,2,15,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--border2)}
+  gap:14px;padding:14px 24px;padding:calc(14px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) 14px calc(24px + env(safe-area-inset-left));background:rgba(4,2,15,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border-bottom:1px solid var(--border2)}
 html[data-theme="light"] .topnav{background:rgba(243,245,250,.82)}
 .topnav-brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
 .topnav-brand svg{width:22px;height:22px}
@@ -90,7 +92,8 @@ html[data-theme="light"] .theme-toggle .icon-moon{display:block}
 .nav-toggle span::after{position:absolute;top:5px}
 
 /* ---------- breadcrumb ---------- */
-.breadcrumb{display:flex;align-items:center;gap:6px;padding:88px 24px 0;font-size:11px;color:var(--muted);max-width:1100px;margin:0 auto}
+.breadcrumb{display:flex;align-items:center;gap:6px;padding:88px 24px 0;padding:calc(88px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) 0 calc(24px + env(safe-area-inset-left));font-size:11px;color:var(--muted);max-width:1100px;margin:0 auto;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;white-space:nowrap}
+.breadcrumb::-webkit-scrollbar{display:none}
 .breadcrumb span{cursor:pointer;transition:color .2s}
 .breadcrumb span:hover{color:var(--tungsten)}
 .breadcrumb .sep{opacity:.3;cursor:default}
@@ -174,7 +177,7 @@ html[data-theme="light"] .hero-learning-brand.brand{--sky:#94c9fd;--violet:#6a1b
 .kelvin-labels{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:.08em;color:rgba(255,255,255,.64)}
 
 /* ---------- home section cards ---------- */
-.home-sections{padding:64px 24px 80px;max-width:1160px;margin:0 auto}
+.home-sections{padding:64px 24px 80px;padding-left:calc(24px + env(safe-area-inset-left));padding-right:calc(24px + env(safe-area-inset-right));max-width:1160px;margin:0 auto}
 .home-sec-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:600}
 .sec-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:540px){.sec-grid{grid-template-columns:1fr 1fr}}
@@ -192,7 +195,7 @@ html[data-theme="light"] .hero-learning-brand.brand{--sky:#94c9fd;--violet:#6a1b
 .sec-card:hover .sec-card-arrow{opacity:.9;transform:translate(2px,-2px)}
 
 /* ---------- inner pages ---------- */
-.inner-page{padding:92px 24px 42px;max-width:1100px;margin:0 auto}
+.inner-page{padding:92px 24px 42px;padding-left:calc(24px + env(safe-area-inset-left));padding-right:calc(24px + env(safe-area-inset-right));max-width:1100px;margin:0 auto;min-width:0}
 .page-header{margin-bottom:40px}
 .page-eyebrow{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--tungsten);font-weight:700;margin-bottom:10px;display:block}
 .page-h1{font-family:'Chakra Petch',sans-serif;font-size:40px;font-size:clamp(28px,4.6vw,52px);font-weight:600;line-height:1.16;color:var(--sky3);margin-bottom:14px}
@@ -271,7 +274,7 @@ html[data-theme="light"] .hero-learning-brand.brand{--sky:#94c9fd;--violet:#6a1b
 .viz-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:600}
 
 /* ---------- footer ---------- */
-.site-footer{background:var(--bg);border-top:1px solid var(--border);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.site-footer{background:var(--bg);border-top:1px solid var(--border);padding:22px 24px;padding-left:calc(24px + env(safe-area-inset-left));padding-right:calc(24px + env(safe-area-inset-right));padding-bottom:calc(22px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .ft-left{display:flex;align-items:center;gap:10px}
 .ft-name{font-size:12px;font-weight:600;color:var(--tungsten);opacity:.85;letter-spacing:.8px}
 .ft-sub{font-size:10px;color:rgba(155,196,240,.28);letter-spacing:.4px}
@@ -402,11 +405,23 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 
 /* ---------- diagram builder ---------- */
 .dg-wrap{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:900px){.dg-wrap{grid-template-columns:240px 1fr}}
+@media(min-width:760px){.dg-wrap{grid-template-columns:minmax(230px,260px) minmax(0,1fr)}}
 .dg-palette{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:8px;height:fit-content}
 .dg-palette-title{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:4px}
+.dg-fixture-picker{padding:11px;border:1px solid var(--border2);border-radius:11px;background:var(--card2)}
+.dg-fixture-picker label{display:block;margin-bottom:6px;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dg-fixture-select,.dg-row-fixture-select{width:100%;border:1px solid var(--border2);border-radius:8px;background:var(--card1);color:var(--text2);font:500 10.5px 'IBM Plex Sans Thai',sans-serif;outline:none}
+.dg-fixture-select{min-height:36px;padding:7px 28px 7px 9px}
+.dg-fixture-select:focus,.dg-row-fixture-select:focus{border-color:var(--daylight);box-shadow:0 0 0 2px rgba(111,195,255,.12)}
+.dg-fixture-select option,.dg-row-fixture-select option{background:#151126;color:#e7ecff}
+.dg-fixture-spec{margin-top:8px;padding-top:8px;border-top:1px solid var(--border2)}
+.dg-fixture-spec-name{display:block;font-size:11px;font-weight:700;color:var(--sky2);line-height:1.35}
+.dg-fixture-spec-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.dg-fixture-chip{padding:3px 5px;border:1px solid rgba(111,195,255,.18);border-radius:999px;background:rgba(111,195,255,.06);font:8px 'IBM Plex Mono',monospace;color:var(--muted)}
+.dg-fixture-spec-copy{margin-top:6px;font-size:8.8px;line-height:1.55;color:var(--muted)}
+.dg-fixture-note{margin-top:7px;font-size:8px;line-height:1.5;color:var(--muted);opacity:.8}
 .dg-tool{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--border2);
-  background:var(--card2);cursor:grab;transition:all .15s;user-select:none;-webkit-user-select:none;touch-action:none}
+  background:var(--card2);cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .dg-tool:hover{border-color:var(--tungsten)}
 .dg-tool:active{cursor:grabbing}
 .dg-swatch{width:14px;height:14px;border-radius:50%;flex-shrink:0}
@@ -417,7 +432,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .dg-preset-btn:hover{border-color:var(--sky);color:var(--sky)}
 .dg-clear-btn{margin-top:10px;font-size:11px;padding:8px;border-radius:8px;border:1px solid rgba(255,90,90,.25);color:#FF8A8A}
 .dg-clear-btn:hover{background:rgba(255,90,90,.08)}
-.dg-stage-outer{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:14px;position:relative;contain:layout paint}
+.dg-stage-outer{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:14px;position:relative;contain:layout paint;align-self:start}
 .dg-stage-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:stretch}
 @media(min-width:1180px){.dg-stage-layout{grid-template-columns:minmax(0,1fr) 228px}}
 .dg-stage{position:relative;width:100%;aspect-ratio:1/1;max-height:640px;margin:0 auto;border-radius:14px;
@@ -525,20 +540,129 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .dg-light-row-name{font-size:12.5px;font-weight:600;color:var(--sky2);flex:1}
 .dg-light-row-remove{width:20px;height:20px;border-radius:50%;color:var(--muted);font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
 .dg-light-row-remove:hover{background:rgba(255,90,90,.12);color:#FF8A8A}
+.dg-row-fixture{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:center;gap:8px;margin:2px 0 8px}
+.dg-row-fixture label{font-size:9.5px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
+.dg-row-fixture-select{min-height:32px;padding:5px 25px 5px 7px}
 .dg-slider-line{display:grid;grid-template-columns:54px 1fr 42px;align-items:center;gap:8px;margin-top:6px}
 .dg-slider-line label{font-size:9.5px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
 .dg-slider-line input[type=range]{width:100%;height:3px}
+.dg-slider-line input[type=color]{width:100%;height:26px;padding:0;border:1px solid var(--border2);border-radius:6px;background:transparent;cursor:pointer}
 .dg-slider-line .dg-slider-val{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);text-align:right}
+.dg-fixed-spec{grid-column:2/4;padding:4px 7px;border-radius:6px;background:rgba(155,196,240,.05);font:9px 'IBM Plex Mono',monospace;color:var(--muted)}
 
+@media(max-width:1024px){
+  .hero-nav{display:none}
+}
+.hero-alpha-badge{max-width:calc(100% - 24px);overflow:hidden}
+.hero-alpha-badge span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:899px){
+  .breadcrumb{padding-top:calc(82px + env(safe-area-inset-top))}
+  .inner-page{padding-top:38px;padding-bottom:38px}
+  .page-header{margin-bottom:28px}
+}
+@media(max-width:759px){
+  .dg-palette{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:14px}
+  .dg-palette-title,.dg-fixture-picker,.dg-subject-group-label,.dg-subject-toggle,.dg-subject-featured,
+  .dg-model-status,.dg-model-credit,.dg-preset-row,.dg-clear-btn,.dg-hint-note{grid-column:1/-1}
+  .dg-tool{min-width:0;min-height:54px;padding:8px 9px;gap:8px}
+  .dg-tool>div{min-width:0}
+  .dg-tool span{font-size:11px;overflow-wrap:anywhere}
+  .dg-tool small{font-size:8.5px;line-height:1.35}
+  .dg-stage-outer{padding:10px}
+  .dg3d-canvas-wrap{min-height:clamp(260px,58vw,360px);max-height:none}
+  .dg3d-empty-hint{max-width:84%;padding:20px 12px;font-size:10px;line-height:1.6}
+  .dg3d-selection-status{left:10px;right:10px;max-width:none;white-space:normal;line-height:1.4;text-align:center}
+  .dg-used-lights-panel{padding:11px;gap:10px}
+  .dg-used-lights-list{max-height:290px}
+}
+@media(min-width:600px) and (max-width:759px) and (orientation:landscape){
+  .dg-wrap{grid-template-columns:220px minmax(0,1fr)}
+  .dg-palette{display:flex;padding:12px}
+}
+@media(max-width:680px){
+  .hero-header-actions.header-actions{top:62px;left:18px;right:18px;width:auto;gap:7px;align-items:flex-start}
+  .contact-action-stack{flex:1;min-width:0}
+  .hero-header-actions .theme-toggle{width:44px;height:44px}
+  .nav-cta{min-height:44px;padding:9px 12px;font-size:.76rem;justify-content:center}
+  .nav-cta svg{display:none}
+  .issue-btn{max-width:none;min-height:36px;padding:6px 8px;font-size:.66rem;white-space:normal}
+}
 @media(max-width:640px){
+  .topnav{gap:8px;padding:10px 14px;padding:calc(10px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) 10px calc(14px + env(safe-area-inset-left))}
   .topnav-links{display:none}
   .nav-toggle{display:flex}
-  .hero-cnt{justify-content:flex-start}
-  .hero-right{text-align:left;align-items:flex-start;max-width:88%}
-  .hud-ev{display:none}
+  .topnav-alpha{max-width:calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));padding:7px 12px;font-size:8.5px;overflow:hidden;text-overflow:ellipsis}
+  .breadcrumb{padding:calc(76px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 0 calc(16px + env(safe-area-inset-left));font-size:10px}
+  .inner-page{padding:28px 16px 34px;padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right))}
+  .page-header{margin-bottom:22px}
+  .page-desc{font-size:13px}
+  .home-hero{padding:8px;padding-left:calc(8px + env(safe-area-inset-left));padding-right:calc(8px + env(safe-area-inset-right));padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+  .home-hero-inner{border-radius:16px}
+  .hero-learning-brand{top:14px;left:14px}
+  .hero-cnt{justify-content:flex-start;padding:22px 18px;bottom:10px}
+  .hero-right{text-align:left;align-items:flex-start;max-width:100%;gap:11px}
+  .hero-title{font-size:clamp(28px,10vw,38px)}
+  .hero-desc{font-size:11.5px;line-height:1.55;max-width:390px}
+  .hero-cta{min-height:48px}
+  .hud-ev,.hud-kelvin-scale{display:none}
+  .home-sections{padding:42px 16px 56px;padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right))}
+  .content-body{padding:18px 16px}
+  .content-section{margin-bottom:24px;padding-bottom:24px}
+  .viz-wrap,.gear-card,.compare-card{padding:16px}
+  .info-table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+  .tier-intro{flex-direction:column;padding:16px}
+  .tier-set{grid-template-columns:64px minmax(0,1fr)}
+  .tier-set-main{padding:13px 12px}
+  .tier-set-title{font-size:14px}
+  .tier-chip{white-space:normal}
+  .pattern-card{min-width:min(140px,100%)}
+  .site-footer{padding:18px 16px;padding-left:calc(16px + env(safe-area-inset-left));padding-right:calc(16px + env(safe-area-inset-right));padding-bottom:calc(18px + env(safe-area-inset-bottom));align-items:flex-start;flex-direction:column}
+  .ft-right{line-height:1.5}
+  .dg-wrap{gap:12px}
+  .dg-stage-layout{gap:9px}
+  .dg-readout{gap:6px;margin-top:10px}
+  .dg-readout-item{min-width:88px;padding:9px 7px}
+  .dg-light-row{padding:10px}
+  .dg-row-fixture{grid-template-columns:48px minmax(0,1fr);gap:6px}
+  .dg-slider-line{grid-template-columns:48px minmax(0,1fr) 38px;gap:6px}
+  .dg-fixed-spec{grid-column:1/-1}
 }
-#mobileMenu{-webkit-backdrop-filter:blur(10px)}
-.compat-warning{display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:250;max-width:720px;margin:0 auto;
+@media(max-width:420px){
+  .brand-word .name{font-size:.82rem}
+  .brand-word .sub{font-size:.46rem;letter-spacing:.12em}
+  .hero-eyebrow{font-size:8.5px;letter-spacing:.14em}
+  .hero-desc{max-width:94%}
+  .hud-wb{display:none}
+  .dg-palette{padding:11px;gap:7px}
+  .dg-tool{min-height:58px;align-items:flex-start}
+  .dg-swatch{margin-top:2px}
+  .dg3d-canvas-wrap{aspect-ratio:4/3;min-height:250px}
+  .dg3d-hud{font-size:7.5px;left:8px;bottom:8px;letter-spacing:.04em}
+  .dg-used-lights-head{align-items:center}
+  .dg-active-lights{margin-top:10px}
+  .gear-header{flex-direction:column;gap:7px}
+}
+@media(pointer:coarse){
+  .theme-toggle,.nav-toggle{min-width:44px;min-height:44px}
+  .nav-link,.back-btn,.dg-preset-btn,.dg-clear-btn,.dg-subject-btn,.dg-fixture-select,.dg-row-fixture-select{min-height:44px}
+  .dg-tool{min-height:52px}
+  .dg-used-light-item{min-height:56px;grid-template-columns:28px minmax(0,1fr) 36px}
+  .dg-used-light-locate{width:36px;height:36px}
+  .dg-light-row-remove{width:44px;height:44px;margin:-10px -8px -10px 0}
+  .dg-slider-line input[type=range]{height:28px;touch-action:pan-y}
+  .dg-slider-line input[type=color]{height:44px}
+}
+@media(max-height:520px) and (orientation:landscape){
+  #mobileMenu{justify-content:flex-start!important}
+  .hero-desc,.hud-wb,.hud-ev,.hud-kelvin-scale{display:none}
+  .hero-cnt{bottom:4px;padding-bottom:12px}
+  .hero-right{gap:7px;max-width:330px}
+  .hero-title{font-size:28px}
+}
+body.mobile-menu-open{overflow:hidden;touch-action:none}
+#mobileMenu{-webkit-backdrop-filter:blur(10px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:calc(76px + env(safe-area-inset-top)) calc(18px + env(safe-area-inset-right)) calc(18px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left))}
+#mobileMenu .nav-link{display:flex;align-items:center;justify-content:center;width:min(100%,340px)}
+.compat-warning{display:none;position:fixed;left:16px;right:16px;left:calc(16px + env(safe-area-inset-left));right:calc(16px + env(safe-area-inset-right));bottom:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:250;max-width:720px;margin:0 auto;
   padding:12px 16px;border:1px solid rgba(255,157,82,.5);border-radius:12px;background:#17101f;color:#fff;
   box-shadow:0 14px 36px rgba(0,0,0,.45);font-size:12px;line-height:1.6;text-align:center}
 .compat-warning.show{display:block}
@@ -637,7 +761,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
       </nav>
 
       <!-- Alpha badge — sits just below navbar, centered -->
-      <div style="position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:11;
+      <div class="hero-alpha-badge" style="position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:11;
         display:flex;align-items:center;gap:6px;
         background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);
         border-radius:0 0 10px 10px;padding:3px 14px 4px;
@@ -1497,14 +1621,22 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 
     <div class="dg-wrap">
       <div class="dg-palette">
-        <div class="dg-palette-title">คลิกเพื่อเพิ่มไฟ</div>
+        <div class="dg-palette-title">อุปกรณ์ไฟจริง · 32 รุ่น</div>
+        <div class="dg-fixture-picker">
+          <label for="dgFixtureSelect">เลือกรุ่นสำหรับไฟดวงใหม่</label>
+          <select class="dg-fixture-select" id="dgFixtureSelect" aria-describedby="dgFixtureNote"></select>
+          <div class="dg-fixture-spec" id="dgFixtureSpec" aria-live="polite"></div>
+          <div class="dg-fixture-note" id="dgFixtureNote">ความสว่างเป็นการจำลองเชิงเปรียบเทียบจากกำลังไฟ ชนิดแหล่งกำเนิด ระยะ และมุมลำแสง ไม่ใช่ค่าจาก Lux meter หรือไฟล์ IES</div>
+        </div>
+
+        <div class="dg-palette-title" style="margin-top:8px">เลือกหน้าที่แล้วเพิ่มไฟ</div>
         <div class="dg-tool" data-type="key">
           <span class="dg-swatch" style="background:var(--key)"></span>
-          <div><span>Key Light</span><small>แหล่งแสงหลัก</small></div>
+          <div><span>Key Light</span><small>เพิ่มรุ่นที่เลือกเป็นแสงหลัก</small></div>
         </div>
         <div class="dg-tool" data-type="fill">
           <span class="dg-swatch" style="background:var(--fill)"></span>
-          <div><span>Fill Light</span><small>เติมเงาฝั่งตรงข้าม</small></div>
+          <div><span>Fill Light</span><small>เพิ่มรุ่นที่เลือกเพื่อเติมเงา</small></div>
         </div>
         <div class="dg-tool" data-type="back">
           <span class="dg-swatch" style="background:var(--back)"></span>
@@ -1545,7 +1677,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
           <button class="dg-preset-btn" onclick="dgPreset('split')">Split</button>
         </div>
         <button class="dg-clear-btn" onclick="dgClear()">ล้างทั้งหมด ✕</button>
-        <p class="dg-hint-note">ลาก <b>ตัวไฟ</b> ในภาพ = หมุนไฟรอบตัวแบบ (ระยะเดิม)<br>ลาก <b>พื้นที่ว่าง</b> = หมุนกล้องมอง · scroll = ซูม</p>
+        <p class="dg-hint-note">เลือกรุ่นด้านบนก่อนเพิ่มไฟ · เปลี่ยนรุ่นของไฟเดิมได้ในแผงด้านล่าง<br>ลาก <b>ตัวไฟ</b> = หมุนไฟรอบตัวแบบ · ลากพื้นที่ว่าง = หมุนกล้อง · scroll = ซูม</p>
       </div>
 
       <div class="dg-stage-outer">
@@ -1553,7 +1685,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
           <div class="dg3d-canvas-wrap" id="dg3dWrap">
             <div class="dg3d-loading" id="dg3dLoading"><div class="dg3d-spinner"></div>กำลังโหลดฉาก 3D…</div>
             <canvas id="dg3dCanvas" aria-label="ภาพตัวอย่างการจัดไฟแบบสามมิติ"></canvas>
-            <div class="dg3d-empty-hint" id="dgEmptyHint">คลิกไอคอนไฟด้านซ้ายเพื่อเริ่มวาง แล้วลากที่ตัวไฟในภาพเพื่อหมุนรอบตัวแบบ</div>
+            <div class="dg3d-empty-hint" id="dgEmptyHint">เลือกรุ่นอุปกรณ์ แล้วคลิกหน้าที่ไฟด้านซ้ายเพื่อเริ่มวาง จากนั้นลากตัวโคมในภาพเพื่อหมุนรอบตัวแบบ</div>
             <div class="dg3d-hud" id="dg3dHud"></div>
             <div class="dg3d-selection-status" id="dgSelectionStatus" aria-live="polite"></div>
           </div>
@@ -1826,6 +1958,7 @@ function openMobileMenu(){
   mobileMenu.style.display='flex';
   mobileMenu.setAttribute('aria-hidden','false');
   navToggle && navToggle.setAttribute('aria-expanded','true');
+  document.body.classList.add('mobile-menu-open');
   if(gsapReady){
     gsap.killTweensOf(mobileMenu);
     gsap.fromTo(mobileMenu,{opacity:0},{opacity:1,duration:0.22,ease:'power1.out'});
@@ -1837,6 +1970,7 @@ function openMobileMenu(){
 function closeMobileMenu(){
   navToggle && navToggle.setAttribute('aria-expanded','false');
   mobileMenu.setAttribute('aria-hidden','true');
+  document.body.classList.remove('mobile-menu-open');
   if(gsapReady){
     gsap.killTweensOf(mobileMenu);
     gsap.to(mobileMenu,{opacity:0,duration:0.18,ease:'power1.in',onComplete:()=>{ mobileMenu.style.display='none'; }});
@@ -1844,6 +1978,9 @@ function closeMobileMenu(){
     mobileMenu.style.display='none';
   }
 }
+window.addEventListener('resize',()=>{
+  if(window.innerWidth>640 && mobileMenu && mobileMenu.style.display==='flex') closeMobileMenu();
+},{passive:true});
 
 /* ══════════════════════════════════════
    THEME TOGGLE
@@ -2187,6 +2324,8 @@ initLightingHeroMotion();
   const usedLightsListEl=document.getElementById('dgUsedLightsList');
   const usedLightsCountEl=document.getElementById('dgUsedLightsCount');
   const selectionStatusEl=document.getElementById('dgSelectionStatus');
+  const fixtureSelectEl=document.getElementById('dgFixtureSelect');
+  const fixtureSpecEl=document.getElementById('dgFixtureSpec');
 
   const TYPE_META={
     key:{label:'Key Light',color:0xFF9D52,cssVar:'var(--key)'},
@@ -2195,12 +2334,50 @@ initLightingHeroMotion();
     prac:{label:'Practical',color:0xFFC98A,cssVar:'var(--prac)'},
     bg:{label:'Background',color:0xFF7AC6,cssVar:'var(--bgl)'}
   };
+  // Inventory copied from nitade-creator-lab-equipment.html. Photometric
+  // behaviour uses source type, stated wattage/CCT, fixture form and beam type.
+  const LIGHT_FIXTURES=[
+    {id:'aputure-mc-4-kit',group:'Video Lights',brand:'Aputure',model:'MC 4-Kit',form:'quad',source:'RGBWW LED · 4 ดวง',tech:'led',watts:20,cctMin:3200,cctMax:6500,cctDefault:5600,rgb:true,beamMin:85,beamMax:120,beamDefault:110,softness:.86,cri:'สูง',desc:'ไฟ RGB พกพา 4 ดวง มีแม่เหล็ก เหมาะซ่อนไฟและแต่งสีในฉาก'},
+    {id:'amaran-300c',group:'Video Lights',brand:'Amaran',model:'300c',form:'cob',source:'RGBWW COB LED',tech:'led',watts:300,cctMin:2500,cctMax:7500,cctDefault:5600,rgb:true,beamMin:35,beamMax:70,beamDefault:55,softness:.48,cri:'สูง',desc:'COB สีเต็มกำลังสูง เหมาะเป็นไฟหลักทั้งงานวิดีโอและภาพนิ่ง'},
+    {id:'nanlite-fs-60',group:'Video Lights',brand:'Nanlite',model:'Fs-60',form:'cob',source:'Daylight COB LED',tech:'led',watts:60,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96+',desc:'Monolight ขนาดเล็ก แสงเดย์ไลท์ เหมาะเป็น Fill หรือ Key ในฉากเล็ก'},
+    {id:'nanlite-fs-150',group:'Video Lights',brand:'Nanlite',model:'Fs-150',form:'cob',source:'Daylight COB LED',tech:'led',watts:150,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96 / TLCI 98',desc:'Monolight เดย์ไลท์ กำลังปานกลาง ปรับหรี่ 0–100% และใช้ Bowens modifier ได้'},
+    {id:'nanlite-fs-150b',group:'Video Lights',brand:'Nanlite',model:'Fs-150 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:150,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96+',desc:'Monolight Bi-color ขนาดกะทัดรัด ปรับโทนอุ่นถึงเดย์ไลท์'},
+    {id:'nanlite-fs-200',group:'Video Lights',brand:'Nanlite',model:'Fs-200',form:'cob',source:'Daylight COB LED',tech:'led',watts:200,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.44,cri:'96 / TLCI 98',desc:'Monolight เดย์ไลท์สำหรับ Key ในฉากขนาดกลางถึงใหญ่'},
+    {id:'nanlite-fs-300b',group:'Video Lights',brand:'Nanlite',model:'Fs-300 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:300,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.44,cri:'96+',desc:'Bi-color กำลังสูง ให้ความยืดหยุ่นเรื่องโทนสีสำหรับไฟหลัก'},
+    {id:'nanlite-fs-300c',group:'Video Lights',brand:'Nanlite',model:'Fs-300 C',form:'cob',source:'RGBW COB LED',tech:'led',watts:300,cctMin:2700,cctMax:7500,cctDefault:5600,rgb:true,beamMin:35,beamMax:70,beamDefault:55,softness:.46,cri:'95+',desc:'ไฟสีเต็มรูปแบบสำหรับบรรยากาศ มิวสิควิดีโอ และโฆษณา'},
+    {id:'nanlite-fc-300b',group:'Video Lights',brand:'Nanlite',model:'Fc-300 B',form:'fresnel',source:'Bi-color LED Fresnel',tech:'led',watts:300,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:15,beamMax:50,beamDefault:30,softness:.20,cri:'สูง',desc:'Fresnel Bi-color ปรับลำแสงแคบ–กว้าง เหมาะสร้างเงาและแสงแบบภาพยนตร์'},
+    {id:'godox-tl120',group:'Video Lights',brand:'Godox',model:'TL120 LED Tube Light',form:'tube',source:'RGB LED Tube',tech:'led',watts:30,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:true,beamMin:100,beamMax:150,beamDefault:130,softness:.88,cri:'สูง',desc:'หลอดยาว RGB สำหรับไฟไลน์ ไฟฉากหลัง และเอฟเฟกต์สี'},
+    {id:'smallrig-vibe-p108',group:'Video Lights',brand:'SmallRig',model:'Vibe P108 RGB',form:'pocket',source:'RGB LED Panel',tech:'led',watts:10,cctMin:2500,cctMax:8500,cctDefault:5600,rgb:true,beamMin:90,beamMax:130,beamDefault:110,softness:.84,cri:'สูง',desc:'ไฟ RGB พกพาขนาดจิ๋วสำหรับเติมแสงเฉพาะจุดหรือติดริกกล้อง'},
+    {id:'yongnuo-yn600lii',group:'Video Lights',brand:'Yongnuo',model:'YN 600L II',form:'panel',source:'Bi-color LED Panel',tech:'led',watts:36,cctMin:3200,cctMax:5500,cctDefault:5500,rgb:false,beamMin:55,beamMax:100,beamDefault:75,softness:.76,cri:'ดี',desc:'พาแนล Bi-color ราคาประหยัด ให้แสงกว้างสม่ำเสมอ'},
+    {id:'ulanzi-vl119',group:'Video Lights',brand:'Ulanzi',model:'VL119',form:'pocket',source:'RGB LED Panel',tech:'led',watts:13,cctMin:2500,cctMax:9000,cctDefault:5600,rgb:true,beamMin:90,beamMax:130,beamDefault:110,softness:.84,cri:'สูง',desc:'ไฟ RGB พกพาสำหรับกล้อง มือถือ วล็อก และคอนเทนต์ครีเอเตอร์'},
+    {id:'led-light-stick',group:'Video Lights',brand:'—',model:'LED Light Stick',form:'tube',source:'LED Light Stick',tech:'led',watts:20,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:100,beamMax:150,beamDefault:125,softness:.90,cri:'—',desc:'ไฟแท่งแสงกระจาย เหมาะเป็นไฟเสริมหรือไฟตกแต่งฉาก'},
+    {id:'nanguang-cn600hs',group:'Video Lights',brand:'NanGuang',model:'CN-600HS',form:'panel',source:'Bi-color LED Panel',tech:'led',watts:36,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:55,beamMax:100,beamDefault:75,softness:.78,cri:'ดี',desc:'พาแนล Bi-color ให้แสงกว้างสม่ำเสมอสำหรับ Key หรือ Fill'},
+    {id:'ring-light-60w',group:'Video Lights',brand:'—',model:'Ring Light 60w',form:'ring',source:'Bi-color Ring LED',tech:'led',watts:60,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:80,beamMax:130,beamDefault:105,softness:.92,cri:'—',desc:'วงแหวน 60W ให้แสงรอบใบหน้าและ catchlight ทรงกลม'},
+    {id:'nicefoto-100w',group:'Video Lights',brand:'Nicefoto',model:'100w',form:'cob',source:'Daylight COB LED',tech:'led',watts:100,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'—',desc:'Monolight 100W สำหรับฉากเล็กถึงกลาง รองรับ Bowens modifier'},
+
+    {id:'movmax-slide-page',group:'Cinema Lights',brand:'MOVMAX',model:'Slide Page',form:'panel',source:'High-output fixture',tech:'led',watts:800,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:55,beamMax:100,beamDefault:75,softness:.68,cri:'—',desc:'ไฟกำลังสูง 800W สำหรับพื้นที่กว้างและการจำลองแสงผ่านหน้าต่าง'},
+    {id:'filmgear-575w',group:'Cinema Lights',brand:'Filmgear',model:'575w',form:'fresnel',source:'HMI Fresnel',tech:'hmi',watts:575,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:12,beamMax:50,beamDefault:28,softness:.14,cri:'—',desc:'HMI Fresnel เดย์ไลท์ 575W สำหรับยิงผ่านหน้าต่างหรือฉากกลางแจ้ง'},
+    {id:'filmgear-1200w',group:'Cinema Lights',brand:'Filmgear',model:'1200w',form:'fresnel',source:'HMI Fresnel',tech:'hmi',watts:1200,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:10,beamMax:48,beamDefault:26,softness:.13,cri:'—',desc:'HMI Fresnel 1200W ให้ลำแสงเดย์ไลท์กำลังสูงและคุมทิศทางได้'},
+    {id:'filmgear-2000w',group:'Cinema Lights',brand:'Filmgear',model:'2000w',form:'fresnel',source:'HMI Fresnel',tech:'hmi',watts:2000,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:8,beamMax:45,beamDefault:24,softness:.12,cri:'—',desc:'HMI Fresnel 2000W สำหรับฉากใหญ่มากหรือยิงแสงจากระยะไกล'},
+    {id:'lightstar-150w',group:'Cinema Lights',brand:'Lightstar',model:'150w',form:'fresnel',source:'Fresnel',tech:'tungsten',watts:150,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:15,beamMax:55,beamDefault:32,softness:.20,cri:'—',desc:'Fresnel 150W ขนาดเล็ก ปรับโฟกัสลำแสงสำหรับไฟเสริม'},
+    {id:'lightstar-300w',group:'Cinema Lights',brand:'Lightstar',model:'300w',form:'fresnel',source:'Fresnel',tech:'tungsten',watts:300,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:15,beamMax:55,beamDefault:32,softness:.19,cri:'—',desc:'Fresnel 300W สำหรับไฟหลักฉากขนาดกลาง'},
+    {id:'lightstar-650w',group:'Cinema Lights',brand:'Lightstar',model:'650w',form:'fresnel',source:'Fresnel',tech:'tungsten',watts:650,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:14,beamMax:52,beamDefault:30,softness:.18,cri:'—',desc:'Fresnel 650W กำลังสูง ปรับลำแสงแคบ–กว้างได้'},
+    {id:'lightstar-1000w',group:'Cinema Lights',brand:'Lightstar',model:'1000w',form:'fresnel',source:'Fresnel',tech:'tungsten',watts:1000,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:12,beamMax:50,beamDefault:28,softness:.17,cri:'—',desc:'Fresnel 1000W สำหรับฉากขนาดใหญ่และระยะทำงานไกล'},
+    {id:'aputure-ls600x-pro',group:'Cinema Lights',brand:'Aputure',model:'LS 600x Pro',form:'cob',source:'Bi-color COB LED',tech:'led',watts:600,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:30,beamMax:65,beamDefault:45,softness:.40,cri:'สูง',desc:'COB Bi-color 600W ระดับมืออาชีพสำหรับไฟหลักฉากใหญ่'},
+    {id:'aputure-1200d-pro',group:'Cinema Lights',brand:'Aputure',model:'Light Storm 1200d Pro',form:'cob',source:'Daylight COB LED',tech:'led',watts:1200,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:25,beamMax:60,beamDefault:40,softness:.36,cri:'สูง',desc:'COB เดย์ไลท์ 1200W สำหรับฉากใหญ่มากและจำลองแสงแดด'},
+    {id:'tungsten-yellow-2000w',group:'Cinema Lights',brand:'Tungsten',model:'หัวเหลือง 2000w',form:'tungsten',source:'Tungsten Open-face',tech:'tungsten',watts:2000,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:30,beamMax:75,beamDefault:50,softness:.24,cri:'≈100',housing:0xd6a620,desc:'ทังสเตน 2000W โทนอุ่น ให้สีผิวต่อเนื่องแต่ใช้ไฟและให้ความร้อนสูง'},
+    {id:'tungsten-orange-800w',group:'Cinema Lights',brand:'Tungsten',model:'ส้ม 800w',form:'tungsten',source:'Tungsten Open-face',tech:'tungsten',watts:800,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:35,beamMax:80,beamDefault:55,softness:.26,cri:'≈100',housing:0xd76a1f,desc:'ทังสเตน 800W โทนอุ่นสำหรับไฟหลักฉากเล็กหรือไฟเสริม'},
+    {id:'tungsten-red-800w',group:'Cinema Lights',brand:'Tungsten',model:'แดง 800w',form:'tungsten',source:'Tungsten Open-face',tech:'tungsten',watts:800,cctMin:3200,cctMax:3200,cctDefault:3200,rgb:false,beamMin:35,beamMax:80,beamDefault:55,softness:.26,cri:'≈100',housing:0x9c2b26,desc:'ทังสเตน 800W ตัวโคมแดง ให้แสงอุ่นและความร้อนสูง'},
+    {id:'kino-4-bank-220w',group:'Cinema Lights',brand:'Kino',model:'4 Bank 220w',form:'kino4',source:'Fluorescent · 4 Bank',tech:'fluorescent',watts:220,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:65,beamMax:110,beamDefault:85,softness:.90,cri:'—',desc:'ฟลูออเรสเซนต์ 4 หลอด แสงนุ่มกว้างและความร้อนต่ำ'},
+    {id:'kino-2-bank-110w',group:'Cinema Lights',brand:'Kino',model:'2 Bank 110w',form:'kino2',source:'Fluorescent · 2 Bank',tech:'fluorescent',watts:110,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:65,beamMax:110,beamDefault:85,softness:.90,cri:'—',desc:'ฟลูออเรสเซนต์ 2 หลอด ขนาดเล็ก ให้แสงนุ่มและความร้อนต่ำ'}
+  ];
+  let selectedFixtureId='amaran-300c';
   const ROLE_DEFAULT={
-    key:  {az:40,  el:32, dist:3.1, spread:35, intensity:1.5},
-    fill: {az:-42, el:18, dist:3.9, spread:52, intensity:0.75},
-    back: {az:172, el:52, dist:2.5, spread:22, intensity:1.15},
-    prac: {az:75,  el:6,  dist:1.9, spread:62, intensity:0.55},
-    bg:   {az:170, el:24, dist:2.1, spread:48, intensity:0.9}
+    key:  {az:40,  el:32, dist:3.1, intensity:1.00},
+    fill: {az:-42, el:18, dist:3.9, intensity:0.55},
+    back: {az:172, el:52, dist:2.5, intensity:0.78},
+    prac: {az:75,  el:6,  dist:1.9, intensity:0.42},
+    bg:   {az:170, el:24, dist:2.1, intensity:0.68}
   };
   const PRESETS={
     threepoint:{ key:{az:40,el:32,dist:3.1}, fill:{az:-42,el:18,dist:3.9}, back:{az:172,el:52,dist:2.5} },
@@ -2208,6 +2385,97 @@ initLightingHeroMotion();
     butterfly:{  key:{az:0, el:58,dist:2.7} },
     split:{      key:{az:88,el:14,dist:2.8} }
   };
+
+  function getFixture(id){
+    for(let index=0;index<LIGHT_FIXTURES.length;index+=1){
+      if(LIGHT_FIXTURES[index].id===id) return LIGHT_FIXTURES[index];
+    }
+    return LIGHT_FIXTURES[0];
+  }
+  function fixtureName(fixture){
+    return (fixture.brand==='—'?'':fixture.brand+' ')+fixture.model;
+  }
+  function fixtureOptions(selectedId){
+    const groups=['Video Lights','Cinema Lights'];
+    return groups.map(group=>{
+      const options=LIGHT_FIXTURES.filter(fixture=>fixture.group===group).map(fixture=>{
+        const selected=fixture.id===selectedId?' selected':'';
+        return '<option value="'+fixture.id+'"'+selected+'>'+fixtureName(fixture)+'</option>';
+      }).join('');
+      return '<optgroup label="'+group+'">'+options+'</optgroup>';
+    }).join('');
+  }
+  function fixtureCctLabel(fixture){
+    return fixture.cctMin===fixture.cctMax
+      ?fixture.cctDefault+'K'
+      :fixture.cctMin+'–'+fixture.cctMax+'K';
+  }
+  function fixtureEfficiency(fixture){
+    if(fixture.tech==='hmi') return 1.35;
+    if(fixture.tech==='tungsten') return 0.34;
+    if(fixture.tech==='fluorescent') return 0.58;
+    return 1;
+  }
+  function fixtureOutputScale(fixture){
+    return THREE.MathUtils.clamp(Math.sqrt((fixture.watts*fixtureEfficiency(fixture))/100),0.2,5.4);
+  }
+  function beamConcentration(spread){
+    const reference=2*Math.PI*(1-Math.cos(THREE.MathUtils.degToRad(55/2)));
+    const current=2*Math.PI*(1-Math.cos(THREE.MathUtils.degToRad(Math.max(4,spread)/2)));
+    return THREE.MathUtils.clamp(reference/current,0.38,5.8);
+  }
+  function effectiveFixtureOutput(state){
+    const fixture=getFixture(state.fixtureId);
+    return fixtureOutputScale(fixture)*state.intensity*beamConcentration(state.spread)/(state.dist*state.dist);
+  }
+  function kelvinToHex(kelvin){
+    const temperature=THREE.MathUtils.clamp(kelvin,1000,40000)/100;
+    let red,green,blue;
+    if(temperature<=66){
+      red=255;
+      green=99.4708025861*Math.log(temperature)-161.1195681661;
+      blue=temperature<=19?0:138.5177312231*Math.log(temperature-10)-305.0447927307;
+    }else{
+      red=329.698727446*Math.pow(temperature-60,-0.1332047592);
+      green=288.1221695283*Math.pow(temperature-60,-0.0755148492);
+      blue=255;
+    }
+    const channel=value=>Math.round(THREE.MathUtils.clamp(value,0,255));
+    return '#'+[channel(red),channel(green),channel(blue)].map(value=>('0'+value.toString(16)).slice(-2)).join('');
+  }
+  function fixtureLightColor(state){
+    const fixture=getFixture(state.fixtureId);
+    return fixture.rgb&&state.colorMode==='rgb'&&state.rgbColor?state.rgbColor:kelvinToHex(state.cct);
+  }
+  function createLightState(type,overrides){
+    const fixture=getFixture(selectedFixtureId);
+    return Object.assign({},ROLE_DEFAULT[type],{
+      fixtureId:fixture.id,
+      spread:fixture.beamDefault,
+      cct:fixture.cctDefault,
+      rgbColor:'#ffffff',
+      colorMode:'cct'
+    },overrides||{});
+  }
+  function renderFixturePicker(){
+    const fixture=getFixture(selectedFixtureId);
+    if(fixtureSelectEl){
+      fixtureSelectEl.innerHTML=fixtureOptions(fixture.id);
+      fixtureSelectEl.value=fixture.id;
+    }
+    if(!fixtureSpecEl) return;
+    fixtureSpecEl.innerHTML=`
+      <span class="dg-fixture-spec-name">${fixtureName(fixture)}</span>
+      <span class="dg-fixture-spec-meta">
+        <span class="dg-fixture-chip">${fixture.group}</span>
+        <span class="dg-fixture-chip">${fixture.source}</span>
+        <span class="dg-fixture-chip">${fixture.watts}W</span>
+        <span class="dg-fixture-chip">${fixtureCctLabel(fixture)}${fixture.rgb?' · RGB':''}</span>
+        ${fixture.cri!=='—'?`<span class="dg-fixture-chip">CRI ${fixture.cri}</span>`:''}
+        <span class="dg-fixture-chip">Beam ${fixture.beamMin}–${fixture.beamMax}°</span>
+      </span>
+      <div class="dg-fixture-spec-copy">${fixture.desc}</div>`;
+  }
 
   let lights={};          // type -> {az,el,dist,spread,intensity}
   let currentSubjectKey='humanfull';
@@ -3244,14 +3512,14 @@ initLightingHeroMotion();
   function selectLight(type,animateMarker){
     const nextType=type&&lights[type]&&lightObjs[type]?type:null;
     selectedLightType=nextType;
-    Object.keys(lightObjs).forEach(key=>{
-      const material=lightObjs[key].gizmo.material;
-      if(material&&'emissiveIntensity' in material) material.emissiveIntensity=key===nextType?1.8:0.6;
-    });
+    Object.keys(lightObjs).forEach(updateFixtureEmitter);
     if(nextType){
+      const fixture=getFixture(lights[nextType].fixtureId);
+      selectedFixtureId=fixture.id;
+      renderFixturePicker();
       drawSelectionMarker(nextType);
       updateSelectionMarkerPosition();
-      selectionStatusEl.textContent='◎ กำลังระบุตำแหน่ง: '+TYPE_META[nextType].label;
+      selectionStatusEl.textContent='◎ '+TYPE_META[nextType].label+' · '+fixtureName(fixture);
       selectionStatusEl.classList.add('show');
       if(animateMarker&&gsapReady&&!prefersReducedMotion){
         gsap.killTweensOf(selectedLightMarker.scale);
@@ -3280,9 +3548,131 @@ initLightingHeroMotion();
     return new THREE.ConeGeometry(1,1,28,1,true);
   }
 
+  function addFixtureMesh(group,type,geometry,material,position,rotation){
+    const mesh=new THREE.Mesh(geometry,material);
+    mesh.userData.type=type;
+    if(position) mesh.position.set(position[0],position[1],position[2]);
+    if(rotation) mesh.rotation.set(rotation[0],rotation[1],rotation[2]);
+    group.add(mesh);
+    return mesh;
+  }
+  function createFixtureGizmo(type,fixture,color){
+    const group=new THREE.Group();
+    group.name='DiagramFixture_'+fixture.id;
+    group.userData.type=type;
+    const housingColor=fixture.housing||0x262936;
+    const housingMat=new THREE.MeshStandardMaterial({color:housingColor,roughness:.58,metalness:.38});
+    const trimMat=new THREE.MeshStandardMaterial({color:0x090b10,roughness:.48,metalness:.62});
+    const emitterMat=new THREE.MeshStandardMaterial({
+      color:color,emissive:color,emissiveIntensity:1.1,roughness:.28,metalness:.04,side:THREE.DoubleSide
+    });
+    emitterMat.userData.fixtureEmitter=true;
+    const glassMat=new THREE.MeshStandardMaterial({
+      color:color,emissive:color,emissiveIntensity:.82,roughness:.18,metalness:.02,transparent:true,opacity:.9
+    });
+    glassMat.userData.fixtureEmitter=true;
+
+    function addPanel(width,height,depth,x,z){
+      addFixtureMesh(group,type,new THREE.BoxGeometry(width,depth,height),housingMat,[x,0,z]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(width*.88,.008,height*.84),emitterMat,[x,-depth*.56,z]);
+    }
+    if(fixture.form==='quad'){
+      [[-.075,-.055],[.075,-.055],[-.075,.055],[.075,.055]].forEach(point=>addPanel(.13,.09,.052,point[0],point[1]));
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.06,.08,.035),trimMat,[0,.07,0]);
+    }else if(fixture.form==='pocket'){
+      addPanel(.22,.14,.058,0,0);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.08,.03,.022),trimMat,[0,.045,.095]);
+    }else if(fixture.form==='panel'){
+      addPanel(.36,.25,.075,0,0);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.025,.025,.10,10),trimMat,[0,.09,0]);
+    }else if(fixture.form==='tube'){
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.042,.042,.52,16),housingMat,[0,0,0],[0,0,Math.PI/2]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.037,.037,.47,16),glassMat,[0,-.012,0],[0,0,Math.PI/2]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.048,.048,.035,12),trimMat,[-.26,0,0],[0,0,Math.PI/2]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.048,.048,.035,12),trimMat,[.26,0,0],[0,0,Math.PI/2]);
+    }else if(fixture.form==='ring'){
+      addFixtureMesh(group,type,new THREE.TorusGeometry(.14,.035,10,28),emitterMat,[0,-.018,0],[Math.PI/2,0,0]);
+      addFixtureMesh(group,type,new THREE.TorusGeometry(.14,.047,10,28),housingMat,[0,.018,0],[Math.PI/2,0,0]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.06,.08,.05),trimMat,[0,.055,-.18]);
+    }else if(fixture.form==='kino4'||fixture.form==='kino2'){
+      const tubeCount=fixture.form==='kino4'?4:2;
+      const height=fixture.form==='kino4' ? .28 : .18;
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.44,.065,height),housingMat,[0,.018,0]);
+      for(let index=0;index<tubeCount;index+=1){
+        const z=tubeCount===4?-.105+index*.07:-.045+index*.09;
+        addFixtureMesh(group,type,new THREE.CylinderGeometry(.017,.017,.38,12),glassMat,[0,-.03,z],[0,0,Math.PI/2]);
+      }
+    }else if(fixture.form==='fresnel'){
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.11,.14,.25,18),housingMat,[0,.015,0]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.115,.115,.022,24),glassMat,[0,-.125,0]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.035,.018,.23),trimMat,[-.145,-.14,0],[0,0,-.18]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.035,.018,.23),trimMat,[.145,-.14,0],[0,0,.18]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.23,.018,.035),trimMat,[0,-.14,-.145],[.18,0,0]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.23,.018,.035),trimMat,[0,-.14,.145],[-.18,0,0]);
+    }else if(fixture.form==='tungsten'){
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.115,.15,.27,16),housingMat,[0,.02,0]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.12,.12,.018,20),emitterMat,[0,-.13,0]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.035,.018,.25),trimMat,[-.15,-.14,0],[0,0,-.22]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.035,.018,.25),trimMat,[.15,-.14,0],[0,0,.22]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.25,.018,.035),trimMat,[0,-.14,-.15],[.22,0,0]);
+      addFixtureMesh(group,type,new THREE.BoxGeometry(.25,.018,.035),trimMat,[0,-.14,.15],[-.22,0,0]);
+    }else{
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.09,.13,.23,18),housingMat,[0,.025,0]);
+      addFixtureMesh(group,type,new THREE.ConeGeometry(.15,.15,22,1,true),trimMat,[0,-.15,0]);
+      addFixtureMesh(group,type,new THREE.CylinderGeometry(.105,.105,.012,22),emitterMat,[0,-.23,0]);
+    }
+
+    // Transparent hit volume keeps tiny fixtures easy to grab on touchscreens.
+    const hitMaterial=new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
+    const hit=addFixtureMesh(group,type,new THREE.SphereGeometry(.23,10,8),hitMaterial,[0,0,0]);
+    hit.userData.fixtureHitArea=true;
+    return group;
+  }
+  function disposeObjectTree(root){
+    const geometries=[];
+    const materials=[];
+    root.traverse(object=>{
+      if(object.geometry&&geometries.indexOf(object.geometry)<0) geometries.push(object.geometry);
+      const objectMaterials=Array.isArray(object.material)?object.material:[object.material];
+      objectMaterials.forEach(material=>{
+        if(material&&materials.indexOf(material)<0) materials.push(material);
+      });
+    });
+    geometries.forEach(geometry=>geometry.dispose());
+    materials.forEach(material=>material.dispose());
+  }
+  function updateFixtureEmitter(type){
+    const state=lights[type],object=lightObjs[type];
+    if(!state||!object) return;
+    const color=new THREE.Color(fixtureLightColor(state));
+    const seen=[];
+    object.gizmo.traverse(child=>{
+      const childMaterials=Array.isArray(child.material)?child.material:[child.material];
+      childMaterials.forEach(material=>{
+        if(!material||seen.indexOf(material)>=0||!material.userData.fixtureEmitter) return;
+        seen.push(material);
+        material.color.copy(color);
+        material.emissive.copy(color);
+        material.emissiveIntensity=.58+state.intensity*1.55+(selectedLightType===type ? .55 : 0);
+      });
+    });
+  }
+  function replaceFixtureGizmo(type){
+    const state=lights[type],object=lightObjs[type];
+    if(!state||!object) return;
+    const oldGizmo=object.gizmo;
+    const fixture=getFixture(state.fixtureId);
+    object.gizmo=createFixtureGizmo(type,fixture,fixtureLightColor(state));
+    scene.add(object.gizmo);
+    scene.remove(oldGizmo);
+    disposeObjectTree(oldGizmo);
+  }
+
   function createLight(type){
-    const meta=TYPE_META[type];
-    const spot=new THREE.SpotLight(meta.color,1,14,Math.PI/4,0.5,2);
+    const state=lights[type];
+    const fixture=getFixture(state.fixtureId);
+    const color=fixtureLightColor(state);
+    const spot=new THREE.SpotLight(color,1,18,Math.PI/4,fixture.softness,2);
     // One shadow-casting source keeps the diagram readable without multiplying
     // expensive real-time shadow-map renders for every auxiliary light.
     spot.castShadow=type==='key';
@@ -3295,15 +3685,11 @@ initLightingHeroMotion();
     scene.add(spot);
     scene.add(spot.target);
 
-    const gizmo=new THREE.Mesh(
-      new THREE.ConeGeometry(0.075,0.16,16),
-      new THREE.MeshStandardMaterial({color:meta.color,emissive:meta.color,emissiveIntensity:0.6,roughness:0.4})
-    );
-    gizmo.userData.type=type;
+    const gizmo=createFixtureGizmo(type,fixture,color);
     scene.add(gizmo);
 
     const beamMat=new THREE.MeshBasicMaterial({
-      color:meta.color,transparent:true,opacity:0.1,
+      color:color,transparent:true,opacity:0.1,
       side:THREE.DoubleSide,blending:THREE.AdditiveBlending,depthWrite:false
     });
     const beam=new THREE.Mesh(buildBeamGeometry(),beamMat);
@@ -3314,7 +3700,7 @@ initLightingHeroMotion();
   function disposeLightObj(o){
     if(!o) return;
     scene.remove(o.spot,o.spot.target,o.gizmo,o.beam);
-    o.gizmo.geometry.dispose(); o.gizmo.material.dispose();
+    disposeObjectTree(o.gizmo);
     o.beam.geometry.dispose(); o.beam.material.dispose();
   }
   const transformCenter=new THREE.Vector3();
@@ -3328,7 +3714,9 @@ initLightingHeroMotion();
     if(!usedLightsListEl||!lights[type]) return;
     const item=usedLightsListEl.querySelector('[data-type="'+type+'"]');
     const position=item&&item.querySelector('.dg-used-light-position');
-    if(position) position.textContent='มุม '+Math.round(lights[type].az)+'° · สูง '+Math.round(lights[type].el)+'°';
+    const state=lights[type];
+    const fixture=getFixture(state.fixtureId);
+    if(position) position.textContent=fixtureName(fixture)+' · '+Math.round(state.cct)+'K · มุม '+Math.round(state.az)+'°';
   }
 
   function updateLightTransform(type){
@@ -3341,12 +3729,17 @@ initLightingHeroMotion();
 
     o.spot.position.copy(pos);
     o.spot.target.position.copy(targetPoint);
+    const fixture=getFixture(st.fixtureId);
+    st.spread=THREE.MathUtils.clamp(st.spread,fixture.beamMin,fixture.beamMax);
+    const lightColor=new THREE.Color(fixtureLightColor(st));
+    o.spot.color.copy(lightColor);
+    o.beam.material.color.copy(lightColor);
     o.spot.angle=THREE.MathUtils.degToRad(Math.min(st.spread/2,70));
-    o.spot.penumbra=Math.min(0.15+st.spread/110,0.95);
+    o.spot.penumbra=THREE.MathUtils.clamp(fixture.softness,0,1);
     // With physicallyCorrectLights enabled this value behaves like luminous
-    // intensity and falls off by distance squared. The multiplier keeps the
-    // existing 0.15–2.50 teaching scale practical at 1.4–6 metre distances.
-    o.spot.intensity=st.intensity*18;
+    // intensity and falls off by distance squared. Narrow Fresnel beams gain
+    // centre intensity while broad panels/tubes spread the same source output.
+    o.spot.intensity=st.intensity*18*fixtureOutputScale(fixture)*beamConcentration(st.spread);
 
     const dir=transformDir.copy(pos).sub(targetPoint).normalize();
     const quat=transformQuat.setFromUnitVectors(transformUp,dir);
@@ -3358,7 +3751,8 @@ initLightingHeroMotion();
     o.beam.scale.set(radius,Math.max(dist,0.1),radius);
     o.beam.position.copy(pos).lerp(targetPoint,0.5);
     o.beam.quaternion.copy(quat);
-    o.beam.material.opacity=0.06+st.intensity*0.045;
+    o.beam.material.opacity=THREE.MathUtils.clamp(0.035+st.intensity*.085,0.025,.14);
+    updateFixtureEmitter(type);
     updateUsedLightPosition(type);
     if(selectedLightType===type) updateSelectionMarkerPosition();
   }
@@ -3376,12 +3770,29 @@ initLightingHeroMotion();
     gsap.to(o.gizmo.scale,{x:1,y:1,z:1,duration:0.55,ease:'back.out(2)'});
   }
 
+  function setLightFixture(type,fixtureId){
+    const state=lights[type];
+    if(!state||!getFixture(fixtureId)) return;
+    const fixture=getFixture(fixtureId);
+    state.fixtureId=fixture.id;
+    state.spread=fixture.beamDefault;
+    state.cct=fixture.cctDefault;
+    state.rgbColor='#ffffff';
+    state.colorMode='cct';
+    selectedFixtureId=fixture.id;
+    replaceFixtureGizmo(type);
+    updateLightTransform(type);
+    renderFixturePicker();
+    renderPanel();
+    selectLight(type,true);
+  }
+
   function addLightType(type){
     if(lights[type]){
       selectLight(type,true);
       return;
     }
-    lights[type]=Object.assign({},ROLE_DEFAULT[type]);
+    lights[type]=createLightState(type);
     createLight(type);
     popInLight(type);
     renderPanel();
@@ -3426,7 +3837,7 @@ initLightingHeroMotion();
     Object.keys(p).forEach(type=>{
       const target=p[type];
       if(!lights[type]){
-        lights[type]=Object.assign({},ROLE_DEFAULT[type],target);
+        lights[type]=createLightState(type,target);
         createLight(type);
         popInLight(type);
       } else {
@@ -3445,8 +3856,22 @@ initLightingHeroMotion();
     if(!selectedLightType&&Object.keys(lights).length) selectLight(Object.keys(lights)[0],true);
   };
   document.querySelectorAll('.dg-tool').forEach(tool=>{
+    tool.setAttribute('role','button');
+    tool.setAttribute('tabindex','0');
     tool.addEventListener('click',()=>addLightType(tool.dataset.type));
+    tool.addEventListener('keydown',event=>{
+      if(event.key!=='Enter'&&event.key!==' '&&event.key!=='Spacebar') return;
+      event.preventDefault();
+      addLightType(tool.dataset.type);
+    });
   });
+  if(fixtureSelectEl){
+    fixtureSelectEl.addEventListener('change',()=>{
+      selectedFixtureId=fixtureSelectEl.value;
+      renderFixturePicker();
+    });
+  }
+  renderFixturePicker();
 
   /* ---------- active-lights panel ---------- */
   function renderUsedLights(){
@@ -3463,6 +3888,7 @@ initLightingHeroMotion();
     }
     keys.forEach((type,index)=>{
       const meta=TYPE_META[type], st=lights[type];
+      const fixture=getFixture(st.fixtureId);
       const item=document.createElement('button');
       item.type='button';
       item.className='dg-used-light-item';
@@ -3474,7 +3900,7 @@ initLightingHeroMotion();
         <span class="dg-used-light-symbol" aria-hidden="true">✦</span>
         <span class="dg-used-light-copy">
           <span class="dg-used-light-name">${index+1}. ${meta.label}</span>
-          <span class="dg-used-light-position">มุม ${Math.round(st.az)}° · สูง ${Math.round(st.el)}°</span>
+          <span class="dg-used-light-position">${fixtureName(fixture)} · ${Math.round(st.cct)}K · มุม ${Math.round(st.az)}°</span>
         </span>
         <span class="dg-used-light-locate" aria-hidden="true">◎</span>`;
       item.addEventListener('click',()=>selectLight(type,true));
@@ -3495,6 +3921,7 @@ initLightingHeroMotion();
     activeLightsEl.innerHTML='';
     keys.forEach(type=>{
       const meta=TYPE_META[type], st=lights[type];
+      const fixture=getFixture(st.fixtureId);
       const row=document.createElement('div');
       row.className='dg-light-row';
       row.dataset.type=type;
@@ -3505,19 +3932,44 @@ initLightingHeroMotion();
           <span class="dg-light-row-name">${meta.label}</span>
           <button class="dg-light-row-remove" aria-label="ลบ">✕</button>
         </div>
+        <div class="dg-row-fixture">
+          <label>รุ่นไฟ</label>
+          <select class="dg-row-fixture-select" aria-label="เลือกรุ่นอุปกรณ์สำหรับ ${meta.label}">${fixtureOptions(fixture.id)}</select>
+        </div>
         <div class="dg-slider-line"><label>ระยะ</label><input type="range" min="1.4" max="6" step="0.1" value="${st.dist}" data-k="dist" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="dist">${st.dist.toFixed(1)}m</span></div>
-        <div class="dg-slider-line"><label>Spread</label><input type="range" min="10" max="80" step="1" value="${st.spread}" data-k="spread" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="spread">${st.spread}°</span></div>
-        <div class="dg-slider-line"><label>กำลังไฟ</label><input type="range" min="0.15" max="2.5" step="0.05" value="${st.intensity}" data-k="intensity" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="intensity">${st.intensity.toFixed(2)}</span></div>`;
+        <div class="dg-slider-line"><label>Beam</label><input type="range" min="${fixture.beamMin}" max="${fixture.beamMax}" step="1" value="${st.spread}" data-k="spread" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="spread">${Math.round(st.spread)}°</span></div>
+        <div class="dg-slider-line"><label>Dimmer</label><input type="range" min="0" max="100" step="1" value="${Math.round(st.intensity*100)}" data-k="intensity" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="intensity">${Math.round(st.intensity*100)}%</span></div>
+        ${fixture.cctMin===fixture.cctMax
+          ?`<div class="dg-slider-line"><label>CCT</label><span class="dg-fixed-spec">Fixed · ${fixture.cctDefault}K</span></div>`
+          :`<div class="dg-slider-line"><label>CCT</label><input type="range" min="${fixture.cctMin}" max="${fixture.cctMax}" step="100" value="${st.cct}" data-k="cct" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="cct">${Math.round(st.cct)}K</span></div>`}
+        ${fixture.rgb
+          ?`<div class="dg-slider-line"><label>RGB</label><input type="color" value="${st.rgbColor}" data-k="rgbColor" aria-label="เลือกสี RGB ของ ${fixtureName(fixture)}"><span class="dg-slider-val" data-val="rgbColor">COLOR</span></div>`
+          :''}`;
       row.querySelector('.dg-light-row-remove').addEventListener('click',()=>removeLightType(type));
+      row.querySelector('.dg-row-fixture-select').addEventListener('change',event=>{
+        setLightFixture(type,event.currentTarget.value);
+      });
       row.querySelectorAll('input[type=range]').forEach(inp=>{
         inp.addEventListener('input',()=>{
           const k=inp.dataset.k, v=parseFloat(inp.value);
-          lights[type][k]=v;
-          row.querySelector(`[data-val="${k}"]`).textContent = k==='dist' ? v.toFixed(1)+'m' : (k==='spread' ? Math.round(v)+'°' : v.toFixed(2));
+          lights[type][k]=k==='intensity'?v/100:v;
+          if(k==='cct') lights[type].colorMode='cct';
+          row.querySelector(`[data-val="${k}"]`).textContent = k==='dist'
+            ?v.toFixed(1)+'m'
+            :(k==='spread'?Math.round(v)+'°':(k==='cct'?Math.round(v)+'K':Math.round(v)+'%'));
           updateLightTransform(type);
           scheduleReadout();
         });
       });
+      const colorInput=row.querySelector('input[type=color]');
+      if(colorInput){
+        colorInput.addEventListener('input',()=>{
+          lights[type].rgbColor=colorInput.value;
+          lights[type].colorMode='rgb';
+          updateLightTransform(type);
+          scheduleReadout();
+        });
+      }
       activeLightsEl.appendChild(row);
     });
     syncLightSelectionUI();
@@ -3546,6 +3998,7 @@ initLightingHeroMotion();
     const camVec=CAM_MARKER.clone().sub(SUBJECT_CENTER); camVec.y=0;
     keys.forEach(type=>{
       const st=lights[type];
+      const fixture=getFixture(st.fixtureId);
       const pos=orbitToVec3(st.az,st.el,st.dist);
       const flat=pos.clone().sub(SUBJECT_CENTER); flat.y=0;
       const az=THREE.MathUtils.radToDeg(camVec.angleTo(flat));
@@ -3553,17 +4006,20 @@ initLightingHeroMotion();
       const side= cross>0.001 ? 'ขวา':(cross<-0.001?'ซ้าย':'กลาง');
       const item=document.createElement('div');
       item.className='dg-readout-item';
-      item.innerHTML=`<div class="dg-readout-val" style="color:${TYPE_META[type].cssVar}">${Math.round(az)}° ${side} · ${Math.round(st.el)}° สูง</div><div class="dg-readout-key">${TYPE_META[type].label} · มุมเทียบกล้อง</div>`;
+      item.innerHTML=`<div class="dg-readout-val" style="color:${TYPE_META[type].cssVar}">${Math.round(az)}° ${side} · ${Math.round(st.el)}° สูง</div><div class="dg-readout-key">${TYPE_META[type].label} · ${fixtureName(fixture)} · ${Math.round(st.cct)}K · ${Math.round(st.intensity*100)}%</div>`;
       readoutEl.appendChild(item);
     });
     if(lights.key && lights.fill){
-      const dK=lights.key.dist, dF=lights.fill.dist;
-      const ratio=(lights.key.intensity/(dK*dK))/(lights.fill.intensity/(dF*dF));
-      const stops=Math.log2(ratio);
+      const keyOutput=effectiveFixtureOutput(lights.key);
+      const fillOutput=effectiveFixtureOutput(lights.fill);
+      const ratio=fillOutput>0?keyOutput/fillOutput:Infinity;
+      const stops=Number.isFinite(ratio)&&ratio>0?Math.log2(ratio):Infinity;
+      const ratioText=Number.isFinite(ratio)?Math.min(ratio,999).toFixed(1)+':1':'∞:1';
+      const stopText=Number.isFinite(stops)?(stops>=0?'+':'')+stops.toFixed(1)+' stop':'Fill 0%';
       const item=document.createElement('div');
       item.className='dg-readout-item';
       item.style.background='rgba(255,157,82,.1)';
-      item.innerHTML=`<div class="dg-readout-val" style="color:var(--tungsten)">${ratio.toFixed(1)}:1</div><div class="dg-readout-key">Lighting Ratio (Key:Fill) ≈ ${stops>=0?'+':''}${stops.toFixed(1)} stop</div>`;
+      item.innerHTML=`<div class="dg-readout-val" style="color:var(--tungsten)">${ratioText}</div><div class="dg-readout-key">Lighting Ratio โดยประมาณ (Key:Fill) · ${stopText}</div>`;
       readoutEl.appendChild(item);
     }
   }
@@ -3583,9 +4039,12 @@ initLightingHeroMotion();
   function pickLight(clientX,clientY){
     setNDC(clientX,clientY);
     raycaster.setFromCamera(ndc,camera);
-    const meshes=Object.values(lightObjs).map(o=>o.gizmo);
-    const hit=raycaster.intersectObjects(meshes)[0];
-    return hit ? hit.object.userData.type : null;
+    const fixtures=Object.values(lightObjs).map(o=>o.gizmo);
+    const hit=raycaster.intersectObjects(fixtures,true)[0];
+    if(!hit) return null;
+    let target=hit.object;
+    while(target&&!target.userData.type) target=target.parent;
+    return target&&target.userData.type?target.userData.type:null;
   }
   function dragToAngles(clientX,clientY,type){
     setNDC(clientX,clientY);
@@ -3690,7 +4149,8 @@ initLightingHeroMotion();
   function resize(){
     const r=wrap.getBoundingClientRect();
     const w=Math.max(1,r.width), h=Math.max(1,r.height);
-    const nextPixelRatio=Math.min(window.devicePixelRatio||1,w<700?1.25:1.75);
+    const coarsePointer=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
+    const nextPixelRatio=Math.min(window.devicePixelRatio||1,(coarsePointer||w<900)?1.25:1.75);
     if(nextPixelRatio!==currentPixelRatio){
       currentPixelRatio=nextPixelRatio;
       renderer.setPixelRatio(currentPixelRatio);
@@ -3699,6 +4159,7 @@ initLightingHeroMotion();
     renderer.setSize(w,h,false);
   }
   window.addEventListener('resize',resize);
+  if(window.visualViewport) window.visualViewport.addEventListener('resize',resize,{passive:true});
   if('ResizeObserver' in window) new ResizeObserver(resize).observe(wrap);
 
   /* ---------- render loop, paused while page not visible ---------- */
