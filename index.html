@@ -427,9 +427,13 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .dg-swatch{width:14px;height:14px;border-radius:50%;flex-shrink:0}
 .dg-tool span{font-size:12px;color:var(--text2);font-weight:500}
 .dg-tool small{display:block;font-size:9.5px;color:var(--muted);font-weight:400}
-.dg-preset-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.dg-preset-btn{font-size:10.5px;padding:6px 10px;border-radius:8px;border:1px solid var(--border2);color:var(--muted);transition:all .15s}
+.dg-preset-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:6px}
+.dg-preset-btn{min-width:0;font-size:9.8px;line-height:1.25;padding:7px 8px;border-radius:8px;border:1px solid var(--border2);color:var(--muted);transition:all .15s;text-align:left}
 .dg-preset-btn:hover{border-color:var(--sky);color:var(--sky)}
+.dg-preset-btn.active{border-color:var(--tungsten);color:var(--tungsten);background:rgba(255,157,82,.1);box-shadow:inset 2px 0 0 var(--tungsten)}
+.dg-preset-status{padding:9px 10px;border:1px solid var(--border2);border-radius:9px;background:rgba(155,196,240,.04);line-height:1.45}
+.dg-preset-status strong{display:block;font-size:10px;color:var(--sky2)}
+.dg-preset-status span{display:block;margin-top:2px;font-size:8.7px;color:var(--muted)}
 .dg-clear-btn{margin-top:10px;font-size:11px;padding:8px;border-radius:8px;border:1px solid rgba(255,90,90,.25);color:#FF8A8A}
 .dg-clear-btn:hover{background:rgba(255,90,90,.08)}
 .dg-stage-outer{background:var(--card1);border:1px solid var(--border);border-radius:16px;padding:14px;position:relative;contain:layout paint;align-self:start}
@@ -466,6 +470,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 /* ---------- diagram builder: 3D scene ---------- */
 .dg3d-canvas-wrap{position:relative;width:100%;aspect-ratio:16/10;max-height:560px;min-height:300px;border-radius:14px;overflow:hidden;
   background:radial-gradient(ellipse at 50% 30%,#1B1430,#050311 75%);cursor:grab;touch-action:none;contain:layout paint;isolation:isolate;transform:translateZ(0)}
+@supports not (aspect-ratio:16/10){.dg3d-canvas-wrap{height:clamp(300px,62.5vw,560px)}}
 .dg3d-canvas-wrap:active{cursor:grabbing}
 .dg3d-canvas-wrap canvas{display:block;width:100%;height:100%;transform:translateZ(0)}
 .dg3d-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;
@@ -540,15 +545,38 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 .dg-light-row-name{font-size:12.5px;font-weight:600;color:var(--sky2);flex:1}
 .dg-light-row-remove{width:20px;height:20px;border-radius:50%;color:var(--muted);font-size:11px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
 .dg-light-row-remove:hover{background:rgba(255,90,90,.12);color:#FF8A8A}
-.dg-row-fixture{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:center;gap:8px;margin:2px 0 8px}
-.dg-row-fixture label{font-size:9.5px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
-.dg-row-fixture-select{min-height:32px;padding:5px 25px 5px 7px}
+.dg-row-fixture,.dg-row-modifier{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:center;gap:8px;margin:2px 0 8px}
+.dg-row-fixture label,.dg-row-modifier label{font-size:9.5px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
+.dg-row-fixture-select,.dg-row-modifier-select{width:100%;min-height:32px;padding:5px 25px 5px 7px;border:1px solid var(--border2);border-radius:8px;background:var(--card1);color:var(--text2);font:500 10.5px 'IBM Plex Sans Thai',sans-serif;outline:none}
+.dg-row-modifier-select:focus{border-color:var(--daylight);box-shadow:0 0 0 2px rgba(111,195,255,.12)}
+.dg-row-modifier-select option{background:#151126;color:#e7ecff}
+.dg-modifier-note{margin:-2px 0 8px 62px;padding:6px 8px;border-radius:7px;background:rgba(155,196,240,.045);font-size:8.7px;line-height:1.5;color:var(--muted)}
 .dg-slider-line{display:grid;grid-template-columns:54px 1fr 42px;align-items:center;gap:8px;margin-top:6px}
 .dg-slider-line label{font-size:9.5px;color:var(--muted);letter-spacing:.3px;text-transform:uppercase}
 .dg-slider-line input[type=range]{width:100%;height:3px}
 .dg-slider-line input[type=color]{width:100%;height:26px;padding:0;border:1px solid var(--border2);border-radius:6px;background:transparent;cursor:pointer}
 .dg-slider-line .dg-slider-val{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);text-align:right}
 .dg-fixed-spec{grid-column:2/4;padding:4px 7px;border-radius:6px;background:rgba(155,196,240,.05);font:9px 'IBM Plex Mono',monospace;color:var(--muted)}
+
+.dg-analysis{margin-top:14px;padding:14px;border:1px solid rgba(111,195,255,.18);border-radius:14px;background:linear-gradient(145deg,rgba(111,195,255,.055),rgba(91,16,232,.055))}
+.dg-analysis-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:11px}
+.dg-analysis-title{font-size:12px;font-weight:700;color:var(--sky2)}
+.dg-analysis-sub{display:block;margin-top:3px;font-size:9px;line-height:1.45;color:var(--muted)}
+.dg-analysis-state{flex:0 0 auto;max-width:160px;padding:5px 9px;border:1px solid var(--border2);border-radius:999px;font:9px 'IBM Plex Mono',monospace;color:var(--sky);text-align:center}
+.dg-analysis-state.good{color:#67e8a5;border-color:rgba(103,232,165,.3);background:rgba(103,232,165,.07)}
+.dg-analysis-state.warn{color:var(--tungsten);border-color:rgba(255,157,82,.3);background:rgba(255,157,82,.07)}
+.dg-analysis-state.danger{color:#ff8a9a;border-color:rgba(255,113,133,.32);background:rgba(255,113,133,.07)}
+.dg-analysis-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(126px,1fr));gap:7px}
+.dg-analysis-metric{min-width:0;padding:9px 10px;border:1px solid var(--border2);border-radius:9px;background:var(--card2)}
+.dg-analysis-metric b{display:block;font:600 13px 'IBM Plex Mono',monospace;color:var(--sky2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dg-analysis-metric span{display:block;margin-top:3px;font-size:8.5px;line-height:1.35;color:var(--muted)}
+.dg-analysis-advice{display:grid;gap:6px;margin-top:9px}
+.dg-analysis-tip{display:flex;align-items:flex-start;gap:7px;padding:7px 9px;border-radius:8px;background:rgba(155,196,240,.045);font-size:9.5px;line-height:1.5;color:var(--text2)}
+.dg-analysis-tip::before{content:'●';font-size:7px;line-height:1.8;color:var(--sky)}
+.dg-analysis-tip.good::before{color:#67e8a5}
+.dg-analysis-tip.warn::before{color:var(--tungsten)}
+.dg-analysis-tip.danger::before{color:#ff7185}
+.dg-analysis-disclaimer{margin-top:9px;font-size:8px;line-height:1.5;color:var(--muted);opacity:.82}
 
 @media(max-width:1024px){
   .hero-nav{display:none}
@@ -563,7 +591,7 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
 @media(max-width:759px){
   .dg-palette{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:14px}
   .dg-palette-title,.dg-fixture-picker,.dg-subject-group-label,.dg-subject-toggle,.dg-subject-featured,
-  .dg-model-status,.dg-model-credit,.dg-preset-row,.dg-clear-btn,.dg-hint-note{grid-column:1/-1}
+  .dg-model-status,.dg-model-credit,.dg-preset-row,.dg-preset-status,.dg-clear-btn,.dg-hint-note{grid-column:1/-1}
   .dg-tool{min-width:0;min-height:54px;padding:8px 9px;gap:8px}
   .dg-tool>div{min-width:0}
   .dg-tool span{font-size:11px;overflow-wrap:anywhere}
@@ -586,6 +614,9 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   .nav-cta{min-height:44px;padding:9px 12px;font-size:.76rem;justify-content:center}
   .nav-cta svg{display:none}
   .issue-btn{max-width:none;min-height:36px;padding:6px 8px;font-size:.66rem;white-space:normal}
+  .dg-fixture-select,.dg-row-fixture-select,.dg-row-modifier-select{font-size:16px;line-height:1.2}
+  .dg-fixture-chip{font-size:10px;padding:4px 6px}
+  .dg-fixture-spec-copy,.dg-fixture-note{font-size:10px}
 }
 @media(max-width:640px){
   .topnav{gap:8px;padding:10px 14px;padding:calc(10px + env(safe-area-inset-top)) calc(14px + env(safe-area-inset-right)) 10px calc(14px + env(safe-area-inset-left))}
@@ -623,7 +654,8 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   .dg-readout{gap:6px;margin-top:10px}
   .dg-readout-item{min-width:88px;padding:9px 7px}
   .dg-light-row{padding:10px}
-  .dg-row-fixture{grid-template-columns:48px minmax(0,1fr);gap:6px}
+  .dg-row-fixture,.dg-row-modifier{grid-template-columns:48px minmax(0,1fr);gap:6px}
+  .dg-modifier-note{margin-left:54px}
   .dg-slider-line{grid-template-columns:48px minmax(0,1fr) 38px;gap:6px}
   .dg-fixed-spec{grid-column:1/-1}
 }
@@ -642,9 +674,12 @@ body.modal-open{position:fixed;left:0;right:0;width:100%;overflow:hidden}
   .dg-active-lights{margin-top:10px}
   .gear-header{flex-direction:column;gap:7px}
 }
+@supports not (aspect-ratio:4/3){
+  @media(max-width:420px){.dg3d-canvas-wrap{height:clamp(250px,75vw,360px)}}
+}
 @media(pointer:coarse){
   .theme-toggle,.nav-toggle{min-width:44px;min-height:44px}
-  .nav-link,.back-btn,.dg-preset-btn,.dg-clear-btn,.dg-subject-btn,.dg-fixture-select,.dg-row-fixture-select{min-height:44px}
+  .nav-link,.back-btn,.dg-preset-btn,.dg-clear-btn,.dg-subject-btn,.dg-fixture-select,.dg-row-fixture-select,.dg-row-modifier-select{min-height:44px}
   .dg-tool{min-height:52px}
   .dg-used-light-item{min-height:56px;grid-template-columns:28px minmax(0,1fr) 36px}
   .dg-used-light-locate{width:36px;height:36px}
@@ -1626,7 +1661,7 @@ body.mobile-menu-open{overflow:hidden;touch-action:none}
           <label for="dgFixtureSelect">เลือกรุ่นสำหรับไฟดวงใหม่</label>
           <select class="dg-fixture-select" id="dgFixtureSelect" aria-describedby="dgFixtureNote"></select>
           <div class="dg-fixture-spec" id="dgFixtureSpec" aria-live="polite"></div>
-          <div class="dg-fixture-note" id="dgFixtureNote">ความสว่างเป็นการจำลองเชิงเปรียบเทียบจากกำลังไฟ ชนิดแหล่งกำเนิด ระยะ และมุมลำแสง ไม่ใช่ค่าจาก Lux meter หรือไฟล์ IES</div>
+          <div class="dg-fixture-note" id="dgFixtureNote">Hybrid Photometric ใช้ Lux/Beam จากผู้ผลิตเมื่อมีข้อมูล และใช้โปรไฟล์มาตรฐานที่ระบุชัดเจนสำหรับรุ่นที่ข้อมูลไม่ครบ</div>
         </div>
 
         <div class="dg-palette-title" style="margin-top:8px">เลือกหน้าที่แล้วเพิ่มไฟ</div>
@@ -1660,7 +1695,6 @@ body.mobile-menu-open{overflow:hidden;touch-action:none}
         <button class="dg-subject-btn dg-subject-featured" data-subject="mannequin" onclick="dgSetSubject('mannequin')">โหมดเบา · Low-poly</button>
         <p class="dg-model-status" id="dgModelStatus" data-state="loading" aria-live="polite">กำลังเตรียมโมเดลมนุษย์ 3D…</p>
         <a class="dg-model-credit" href="https://github.com/met4citizen/TalkingHead/tree/main/avatars" target="_blank" rel="noopener noreferrer">Human model · MakeHuman / MPFB · CC0</a>
-        <a class="dg-model-credit" href="https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/AntiqueCamera" target="_blank" rel="noopener noreferrer">Camera model · Antique Camera · CC0</a>
         <div class="dg-subject-group-label">📦 สิ่งของ</div>
         <div class="dg-subject-toggle">
           <button class="dg-subject-btn" data-subject="bottle" onclick="dgSetSubject('bottle')">ขวด</button>
@@ -1671,11 +1705,20 @@ body.mobile-menu-open{overflow:hidden;touch-action:none}
 
         <div class="dg-palette-title" style="margin-top:10px">Preset จัดไฟ</div>
         <div class="dg-preset-row">
-          <button class="dg-preset-btn" onclick="dgPreset('threepoint')">Three-Point</button>
-          <button class="dg-preset-btn" onclick="dgPreset('rembrandt')">Rembrandt</button>
-          <button class="dg-preset-btn" onclick="dgPreset('butterfly')">Butterfly</button>
-          <button class="dg-preset-btn" onclick="dgPreset('split')">Split</button>
+          <button class="dg-preset-btn" data-preset="threepoint" aria-pressed="false" onclick="dgPreset('threepoint')">Three-Point</button>
+          <button class="dg-preset-btn" data-preset="rembrandt" aria-pressed="false" onclick="dgPreset('rembrandt')">Rembrandt</button>
+          <button class="dg-preset-btn" data-preset="butterfly" aria-pressed="false" onclick="dgPreset('butterfly')">Butterfly</button>
+          <button class="dg-preset-btn" data-preset="split" aria-pressed="false" onclick="dgPreset('split')">Split</button>
+          <button class="dg-preset-btn" data-preset="loop" aria-pressed="false" onclick="dgPreset('loop')">Loop</button>
+          <button class="dg-preset-btn" data-preset="silhouette" aria-pressed="false" onclick="dgPreset('silhouette')">Silhouette</button>
+          <button class="dg-preset-btn" data-preset="highkey" aria-pressed="false" onclick="dgPreset('highkey')">High Key</button>
+          <button class="dg-preset-btn" data-preset="lowkey" aria-pressed="false" onclick="dgPreset('lowkey')">Low Key</button>
+          <button class="dg-preset-btn" data-preset="interview" aria-pressed="false" onclick="dgPreset('interview')">Interview</button>
+          <button class="dg-preset-btn" data-preset="product" aria-pressed="false" onclick="dgPreset('product')">Product</button>
+          <button class="dg-preset-btn" data-preset="cinematic" aria-pressed="false" onclick="dgPreset('cinematic')">Cinematic</button>
+          <button class="dg-preset-btn" data-preset="horror" aria-pressed="false" onclick="dgPreset('horror')">Horror</button>
         </div>
+        <div class="dg-preset-status" id="dgPresetStatus" aria-live="polite"><strong>โหมดอิสระ</strong><span>เลือก Preset หรือวางไฟและปรับค่าด้วยตัวเอง</span></div>
         <button class="dg-clear-btn" onclick="dgClear()">ล้างทั้งหมด ✕</button>
         <p class="dg-hint-note">เลือกรุ่นด้านบนก่อนเพิ่มไฟ · เปลี่ยนรุ่นของไฟเดิมได้ในแผงด้านล่าง<br>ลาก <b>ตัวไฟ</b> = หมุนไฟรอบตัวแบบ · ลากพื้นที่ว่าง = หมุนกล้อง · scroll = ซูม</p>
       </div>
@@ -1704,6 +1747,15 @@ body.mobile-menu-open{overflow:hidden;touch-action:none}
         </div>
         <div class="dg-active-lights" id="dgActiveLights"></div>
         <div class="dg-readout" id="dgReadout"></div>
+        <section class="dg-analysis" id="dgAnalysis" aria-labelledby="dgAnalysisTitle">
+          <div class="dg-analysis-head">
+            <div><div class="dg-analysis-title" id="dgAnalysisTitle">วิเคราะห์แสงแบบ Hybrid Photometric</div><span class="dg-analysis-sub">ประมาณ Lux, EV100, Key:Fill, Beam, สี, Power Draw และจำนวน emitter ตามอุปกรณ์ที่ใช้</span></div>
+            <span class="dg-analysis-state" id="dgAnalysisState" aria-live="polite">ยังไม่มีไฟ</span>
+          </div>
+          <div class="dg-analysis-metrics" id="dgAnalysisMetrics"></div>
+          <div class="dg-analysis-advice" id="dgAnalysisAdvice"></div>
+          <p class="dg-analysis-disclaimer">ค่า Lux/EV คำนวณจากข้อมูลผู้ผลิตหรือโปรไฟล์มาตรฐานและกฎ inverse-square เพื่อการเรียนรู้ ควรใช้ Lux meter และข้อมูล IES/Photometric ที่ผ่านการวัดสำหรับงานจริง</p>
+        </section>
       </div>
     </div>
   </div>
@@ -1818,7 +1870,6 @@ body.mobile-menu-open{overflow:hidden;touch-action:none}
 <script src="assets/vendor/OrbitControls.js"></script>
 <script src="assets/vendor/GLTFLoader.js"></script>
 <script src="assets/models/StudioHuman.data.js"></script>
-<script src="assets/models/StudioCamera.data.js"></script>
 <script src="assets/models/ProductBottle.data.js"></script>
 <script src="assets/models/ProductBox.data.js"></script>
 <script src="assets/vendor/gsap.min.js"></script>
@@ -2326,6 +2377,10 @@ initLightingHeroMotion();
   const selectionStatusEl=document.getElementById('dgSelectionStatus');
   const fixtureSelectEl=document.getElementById('dgFixtureSelect');
   const fixtureSpecEl=document.getElementById('dgFixtureSpec');
+  const presetStatusEl=document.getElementById('dgPresetStatus');
+  const analysisStateEl=document.getElementById('dgAnalysisState');
+  const analysisMetricsEl=document.getElementById('dgAnalysisMetrics');
+  const analysisAdviceEl=document.getElementById('dgAnalysisAdvice');
 
   const TYPE_META={
     key:{label:'Key Light',color:0xFF9D52,cssVar:'var(--key)'},
@@ -2337,19 +2392,19 @@ initLightingHeroMotion();
   // Inventory copied from nitade-creator-lab-equipment.html. Photometric
   // behaviour uses source type, stated wattage/CCT, fixture form and beam type.
   const LIGHT_FIXTURES=[
-    {id:'aputure-mc-4-kit',group:'Video Lights',brand:'Aputure',model:'MC 4-Kit',form:'quad',source:'RGBWW LED · 4 ดวง',tech:'led',watts:20,cctMin:3200,cctMax:6500,cctDefault:5600,rgb:true,beamMin:85,beamMax:120,beamDefault:110,softness:.86,cri:'สูง',desc:'ไฟ RGB พกพา 4 ดวง มีแม่เหล็ก เหมาะซ่อนไฟและแต่งสีในฉาก'},
-    {id:'amaran-300c',group:'Video Lights',brand:'Amaran',model:'300c',form:'cob',source:'RGBWW COB LED',tech:'led',watts:300,cctMin:2500,cctMax:7500,cctDefault:5600,rgb:true,beamMin:35,beamMax:70,beamDefault:55,softness:.48,cri:'สูง',desc:'COB สีเต็มกำลังสูง เหมาะเป็นไฟหลักทั้งงานวิดีโอและภาพนิ่ง'},
-    {id:'nanlite-fs-60',group:'Video Lights',brand:'Nanlite',model:'Fs-60',form:'cob',source:'Daylight COB LED',tech:'led',watts:60,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96+',desc:'Monolight ขนาดเล็ก แสงเดย์ไลท์ เหมาะเป็น Fill หรือ Key ในฉากเล็ก'},
-    {id:'nanlite-fs-150',group:'Video Lights',brand:'Nanlite',model:'Fs-150',form:'cob',source:'Daylight COB LED',tech:'led',watts:150,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96 / TLCI 98',desc:'Monolight เดย์ไลท์ กำลังปานกลาง ปรับหรี่ 0–100% และใช้ Bowens modifier ได้'},
-    {id:'nanlite-fs-150b',group:'Video Lights',brand:'Nanlite',model:'Fs-150 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:150,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.45,cri:'96+',desc:'Monolight Bi-color ขนาดกะทัดรัด ปรับโทนอุ่นถึงเดย์ไลท์'},
-    {id:'nanlite-fs-200',group:'Video Lights',brand:'Nanlite',model:'Fs-200',form:'cob',source:'Daylight COB LED',tech:'led',watts:200,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.44,cri:'96 / TLCI 98',desc:'Monolight เดย์ไลท์สำหรับ Key ในฉากขนาดกลางถึงใหญ่'},
-    {id:'nanlite-fs-300b',group:'Video Lights',brand:'Nanlite',model:'Fs-300 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:300,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:35,beamMax:70,beamDefault:55,softness:.44,cri:'96+',desc:'Bi-color กำลังสูง ให้ความยืดหยุ่นเรื่องโทนสีสำหรับไฟหลัก'},
-    {id:'nanlite-fs-300c',group:'Video Lights',brand:'Nanlite',model:'Fs-300 C',form:'cob',source:'RGBW COB LED',tech:'led',watts:300,cctMin:2700,cctMax:7500,cctDefault:5600,rgb:true,beamMin:35,beamMax:70,beamDefault:55,softness:.46,cri:'95+',desc:'ไฟสีเต็มรูปแบบสำหรับบรรยากาศ มิวสิควิดีโอ และโฆษณา'},
-    {id:'nanlite-fc-300b',group:'Video Lights',brand:'Nanlite',model:'Fc-300 B',form:'fresnel',source:'Bi-color LED Fresnel',tech:'led',watts:300,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:15,beamMax:50,beamDefault:30,softness:.20,cri:'สูง',desc:'Fresnel Bi-color ปรับลำแสงแคบ–กว้าง เหมาะสร้างเงาและแสงแบบภาพยนตร์'},
-    {id:'godox-tl120',group:'Video Lights',brand:'Godox',model:'TL120 LED Tube Light',form:'tube',source:'RGB LED Tube',tech:'led',watts:30,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:true,beamMin:100,beamMax:150,beamDefault:130,softness:.88,cri:'สูง',desc:'หลอดยาว RGB สำหรับไฟไลน์ ไฟฉากหลัง และเอฟเฟกต์สี'},
-    {id:'smallrig-vibe-p108',group:'Video Lights',brand:'SmallRig',model:'Vibe P108 RGB',form:'pocket',source:'RGB LED Panel',tech:'led',watts:10,cctMin:2500,cctMax:8500,cctDefault:5600,rgb:true,beamMin:90,beamMax:130,beamDefault:110,softness:.84,cri:'สูง',desc:'ไฟ RGB พกพาขนาดจิ๋วสำหรับเติมแสงเฉพาะจุดหรือติดริกกล้อง'},
-    {id:'yongnuo-yn600lii',group:'Video Lights',brand:'Yongnuo',model:'YN 600L II',form:'panel',source:'Bi-color LED Panel',tech:'led',watts:36,cctMin:3200,cctMax:5500,cctDefault:5500,rgb:false,beamMin:55,beamMax:100,beamDefault:75,softness:.76,cri:'ดี',desc:'พาแนล Bi-color ราคาประหยัด ให้แสงกว้างสม่ำเสมอ'},
-    {id:'ulanzi-vl119',group:'Video Lights',brand:'Ulanzi',model:'VL119',form:'pocket',source:'RGB LED Panel',tech:'led',watts:13,cctMin:2500,cctMax:9000,cctDefault:5600,rgb:true,beamMin:90,beamMax:130,beamDefault:110,softness:.84,cri:'สูง',desc:'ไฟ RGB พกพาสำหรับกล้อง มือถือ วล็อก และคอนเทนต์ครีเอเตอร์'},
+    {id:'aputure-mc-4-kit',group:'Video Lights',brand:'Aputure',model:'MC 4-Kit',form:'quad',source:'RGBWW LED · 4 ดวง',tech:'led',watts:20,cctMin:3200,cctMax:6500,cctDefault:5600,rgb:true,beamMin:120,beamMax:120,beamDefault:120,softness:.86,cri:'96 / TLCI 97',desc:'ไฟ RGBWW พกพา 4 ดวง ดวงละ 5W มีแม่เหล็ก เหมาะซ่อนไฟและแต่งสีในฉาก'},
+    {id:'amaran-300c',group:'Video Lights',brand:'Amaran',model:'300c',form:'cob',source:'RGBWW COB LED',tech:'led',watts:300,cctMin:2500,cctMax:7500,cctDefault:5600,rgb:true,beamMin:89.6,beamMax:89.6,beamDefault:89.6,softness:.42,cri:'95+',desc:'RGBWW Bowens Mount 300W · Beam เปล่า 89.6° และกำลังไฟเข้าสูงสุด 360W'},
+    {id:'nanlite-fs-60',group:'Video Lights',brand:'Nanlite',model:'Fs-60',form:'cob',source:'Daylight COB LED',tech:'led',watts:60,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.42,cri:'96+',desc:'ชื่อรุ่นในบัญชีอุปกรณ์ไม่ระบุรหัสย่อย ใช้โปรไฟล์ Daylight COB 60W แบบประมาณ'},
+    {id:'nanlite-fs-150',group:'Video Lights',brand:'Nanlite',model:'Fs-150',form:'cob',source:'Daylight COB LED',tech:'led',watts:150,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.42,cri:'96 / TLCI 98',desc:'Daylight Bowens Mount COB · Beam เปล่ากว้างและใช้ Reflector/Modifier เพื่อควบคุมลำแสง'},
+    {id:'nanlite-fs-150b',group:'Video Lights',brand:'Nanlite',model:'Fs-150 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:175,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.42,cri:'96 / TLCI 97',desc:'Bi-color Bowens Mount · Rated Power 175W และ CCT 2700–6500K'},
+    {id:'nanlite-fs-200',group:'Video Lights',brand:'Nanlite',model:'Fs-200',form:'cob',source:'Daylight COB LED',tech:'led',watts:200,cctMin:5600,cctMax:5600,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.42,cri:'96 / TLCI 98',desc:'Daylight Bowens Mount COB สำหรับ Key ในฉากขนาดกลางถึงใหญ่'},
+    {id:'nanlite-fs-300b',group:'Video Lights',brand:'Nanlite',model:'Fs-300 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:350,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.40,cri:'96 / TLCI 97',desc:'Bi-color Bowens Mount · Rated Power 350W · Beam เปล่า 120°'},
+    {id:'nanlite-fs-300c',group:'Video Lights',brand:'Nanlite',model:'Fs-300 C',form:'cob',source:'RGBW COB LED',tech:'led',watts:300,cctMin:2700,cctMax:7500,cctDefault:5600,rgb:true,beamMin:65,beamMax:65,beamDefault:65,softness:.42,cri:'95 / TLCI 94',desc:'RGBW Bowens Mount 300W · CCT 2700–7500K · Beam อ้างอิง 65°'},
+    {id:'nanlite-fc-300b',group:'Video Lights',brand:'Nanlite',model:'Fc-300 B',form:'cob',source:'Bi-color COB LED',tech:'led',watts:350,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:false,beamMin:120,beamMax:120,beamDefault:120,softness:.40,cri:'96 / TLCI 98',desc:'Bi-color Bowens Mount 350W; Fresnel เป็นอุปกรณ์เสริม ไม่ได้ติดกับตัวโคมมาตั้งแต่ต้น'},
+    {id:'godox-tl120',group:'Video Lights',brand:'Godox',model:'TL120 LED Tube Light',form:'tube',source:'RGB LED Tube',tech:'led',watts:30,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:true,beamMin:120,beamMax:120,beamDefault:120,softness:.90,cri:'96 / TLCI 98',desc:'หลอด RGB ยาว 117cm · 30W · วัดได้ประมาณ 685 lux ที่ 1m/5600K'},
+    {id:'smallrig-vibe-p108',group:'Video Lights',brand:'SmallRig',model:'Vibe P108 RGB',form:'pocket',source:'RGB LED Panel',tech:'led',watts:5,cctMin:2700,cctMax:6500,cctDefault:5600,rgb:true,beamMin:120,beamMax:120,beamDefault:120,softness:.84,cri:'95+',desc:'ไฟ RGB พกพา 5W · CCT 2700–6500K · กำลังส่องสว่างสูงสุดประมาณ 250lm'},
+    {id:'yongnuo-yn600lii',group:'Video Lights',brand:'Yongnuo',model:'YN 600L II',form:'panel',source:'Bi-color LED Panel',tech:'led',watts:36,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:55,beamMax:55,beamDefault:55,softness:.76,cri:'ดี',desc:'พาแนล Bi-color 36W · 3200–5600K · มุมส่องสว่างอ้างอิง 55°'},
+    {id:'ulanzi-vl119',group:'Video Lights',brand:'Ulanzi',model:'VL119',form:'tube',source:'RGB LED Tube / Wand',tech:'led',watts:7.5,cctMin:2500,cctMax:9000,cctDefault:5600,rgb:true,beamMin:120,beamMax:120,beamDefault:120,softness:.90,cri:'95+',desc:'ไฟแท่ง RGB ยาว 50cm · 7.5W · Beam 120° · ประมาณ 105 lux ที่ 1m'},
     {id:'led-light-stick',group:'Video Lights',brand:'—',model:'LED Light Stick',form:'tube',source:'LED Light Stick',tech:'led',watts:20,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:100,beamMax:150,beamDefault:125,softness:.90,cri:'—',desc:'ไฟแท่งแสงกระจาย เหมาะเป็นไฟเสริมหรือไฟตกแต่งฉาก'},
     {id:'nanguang-cn600hs',group:'Video Lights',brand:'NanGuang',model:'CN-600HS',form:'panel',source:'Bi-color LED Panel',tech:'led',watts:36,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:55,beamMax:100,beamDefault:75,softness:.78,cri:'ดี',desc:'พาแนล Bi-color ให้แสงกว้างสม่ำเสมอสำหรับ Key หรือ Fill'},
     {id:'ring-light-60w',group:'Video Lights',brand:'—',model:'Ring Light 60w',form:'ring',source:'Bi-color Ring LED',tech:'led',watts:60,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:80,beamMax:130,beamDefault:105,softness:.92,cri:'—',desc:'วงแหวน 60W ให้แสงรอบใบหน้าและ catchlight ทรงกลม'},
@@ -2371,6 +2426,54 @@ initLightingHeroMotion();
     {id:'kino-4-bank-220w',group:'Cinema Lights',brand:'Kino',model:'4 Bank 220w',form:'kino4',source:'Fluorescent · 4 Bank',tech:'fluorescent',watts:220,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:65,beamMax:110,beamDefault:85,softness:.90,cri:'—',desc:'ฟลูออเรสเซนต์ 4 หลอด แสงนุ่มกว้างและความร้อนต่ำ'},
     {id:'kino-2-bank-110w',group:'Cinema Lights',brand:'Kino',model:'2 Bank 110w',form:'kino2',source:'Fluorescent · 2 Bank',tech:'fluorescent',watts:110,cctMin:3200,cctMax:5600,cctDefault:5600,rgb:false,beamMin:65,beamMax:110,beamDefault:85,softness:.90,cri:'—',desc:'ฟลูออเรสเซนต์ 2 หลอด ขนาดเล็ก ให้แสงนุ่มและความร้อนต่ำ'}
   ];
+  const LIGHT_MODIFIERS=[
+    {id:'none',label:'Bare / ตัวโคมเดิม',short:'Bare',output:1,transmission:1,beamScale:1,softness:null,spill:1,sourceScale:1,shape:'none',desc:'ใช้คุณภาพลำแสงและความนุ่มพื้นฐานของโคมที่เลือก'},
+    {id:'reflector',label:'Standard Reflector',short:'Reflector',output:1.14,transmission:.92,beamScale:.78,softness:.28,spill:.72,sourceScale:.82,shape:'reflector',desc:'รวมฟลักซ์แสงให้แคบและเข้มขึ้น โดยมีการสูญเสียผ่านผิวสะท้อนเล็กน้อย'},
+    {id:'fresnel',label:'Fresnel Lens',short:'Fresnel',output:1.2,transmission:.84,beamScale:.62,softness:.16,spill:.48,sourceScale:.72,shape:'fresnel',desc:'บีบลำแสงด้วยเลนส์ Fresnel; ความเข้มกลางลำแสงเพิ่มจาก Beam ที่แคบลง'},
+    {id:'softbox',label:'Softbox',short:'Softbox',output:.7,transmission:.55,beamScale:1.28,softness:.88,spill:.52,sourceScale:1.65,shape:'softbox',desc:'ขยายพื้นที่กำเนิดแสงและเสียกำลังราว 0.8–1 stop เพื่อให้เงานุ่มขึ้น'},
+    {id:'softgrid',label:'Softbox + Grid',short:'Soft Grid',output:.58,transmission:.43,beamScale:.82,softness:.74,spill:.25,sourceScale:1.5,shape:'softgrid',desc:'Softbox พร้อม Grid ลด Spill และเสียกำลังมากกว่า Softbox ปกติ'},
+    {id:'umbrella',label:'Shoot-through Umbrella',short:'Umbrella',output:.55,transmission:.48,beamScale:1.55,softness:.94,spill:1.12,sourceScale:1.85,shape:'umbrella',desc:'กระจายแสงกว้างและนุ่ม พร้อมการสูญเสียจากผ้าและแสงย้อนกลับ'},
+    {id:'diffusion',label:'Diffusion Frame',short:'Diffusion',output:.64,transmission:.60,beamScale:1.18,softness:.84,spill:.78,sourceScale:1.45,shape:'diffusion',desc:'ผ้ากรองลดกำลังประมาณ 0.7 stop และเพิ่มพื้นที่กำเนิดแสงตามระยะห่างจากโคม'},
+    {id:'barndoors',label:'Barn Doors',short:'Barn Doors',output:.9,transmission:.86,beamScale:.72,softness:.24,spill:.3,sourceScale:.82,shape:'barndoors',desc:'ตัดขอบลำแสงและ Spill โดยไม่ทำให้แหล่งกำเนิดแสงนุ่มขึ้นมาก'}
+  ];
+
+  // Hybrid photometric profiles. Manufacturer profiles use published output;
+  // derived profiles convert published lumen/beam data; category profiles are
+  // clearly labelled estimates where the inventory does not contain a model ID.
+  const PHOTOMETRIC_PROFILES={
+    'aputure-mc-4-kit':{emitter:'cluster',mount:'magnetic',powerDraw:20,lux1m:400,beam:120,emitters:4,width:.34,height:.22,quality:'manufacturer'},
+    'amaran-300c':{emitter:'point',mount:'bowens',powerDraw:360,lux1m:9370,beam:89.6,reflectorLux1m:26580,reflectorBeam:64.8,fresnelMin:12,fresnelMax:50,quality:'manufacturer'},
+    'nanlite-fs-60':{emitter:'point',mount:'fm',powerDraw:72,lux1m:1800,beam:120,reflectorLux1m:3139,reflectorBeam:55,fresnelMin:10,fresnelMax:45,quality:'category'},
+    'nanlite-fs-150':{emitter:'point',mount:'bowens',powerDraw:185,lux1m:4800,beam:120,reflectorLux1m:26380,reflectorBeam:55,fresnelMin:10,fresnelMax:45,quality:'derived'},
+    'nanlite-fs-150b':{emitter:'point',mount:'bowens',powerDraw:175,lux1m:4300,beam:120,reflectorLux1m:23800,reflectorBeam:55,fresnelMin:10,fresnelMax:45,quality:'derived'},
+    'nanlite-fs-200':{emitter:'point',mount:'bowens',powerDraw:240,lux1m:6500,beam:120,reflectorLux1m:29380,reflectorBeam:55,fresnelMin:10,fresnelMax:45,quality:'derived'},
+    'nanlite-fs-300b':{emitter:'point',mount:'bowens',powerDraw:350,lux1m:11130,beam:120,reflectorLux1m:38720,reflectorBeam:55,fresnelMin:10,fresnelMax:45,quality:'manufacturer'},
+    'nanlite-fs-300c':{emitter:'point',mount:'bowens',powerDraw:300,lux1m:18050,beam:65,reflectorLux1m:34200,reflectorBeam:45,fresnelMin:10,fresnelMax:45,quality:'manufacturer'},
+    'nanlite-fc-300b':{emitter:'point',mount:'bowens',powerDraw:350,lux1m:11210,beam:120,reflectorLux1m:37340,reflectorBeam:45,fresnelMin:10,fresnelMax:45,quality:'manufacturer'},
+    'godox-tl120':{emitter:'tube',mount:'tube',powerDraw:30,lux1m:685,beam:120,emitters:7,width:1.17,height:.05,quality:'manufacturer'},
+    'smallrig-vibe-p108':{emitter:'panel',mount:'pocket',powerDraw:5,lux1m:80,beam:120,emitters:4,width:.09,height:.07,quality:'derived'},
+    'yongnuo-yn600lii':{emitter:'panel',mount:'panel',powerDraw:36,lux1m:4800,beam:55,emitters:6,width:.26,height:.19,quality:'derived'},
+    'ulanzi-vl119':{emitter:'tube',mount:'tube',powerDraw:7.5,lux1m:105,beam:120,emitters:5,width:.50,height:.04,quality:'manufacturer'},
+    'led-light-stick':{emitter:'tube',mount:'tube',powerDraw:20,lux1m:450,beam:120,emitters:5,width:.70,height:.04,quality:'category'},
+    'nanguang-cn600hs':{emitter:'panel',mount:'panel',powerDraw:36,lux1m:4200,beam:60,emitters:6,width:.30,height:.20,quality:'category'},
+    'ring-light-60w':{emitter:'ring',mount:'ring',powerDraw:60,lux1m:1200,beam:105,emitters:8,width:.36,height:.36,quality:'category'},
+    'nicefoto-100w':{emitter:'point',mount:'bowens',powerDraw:110,lux1m:4500,beam:120,reflectorLux1m:12000,reflectorBeam:55,fresnelMin:12,fresnelMax:50,quality:'category'},
+    'movmax-slide-page':{emitter:'panel',mount:'panel',powerDraw:800,lux1m:25000,beam:90,emitters:8,width:1.20,height:.60,quality:'category'},
+    'filmgear-575w':{emitter:'point',mount:'fresnel',powerDraw:650,lux1m:180000,beam:28,focusMin:12,focusMax:50,quality:'category'},
+    'filmgear-1200w':{emitter:'point',mount:'fresnel',powerDraw:1350,lux1m:420000,beam:26,focusMin:10,focusMax:48,quality:'category'},
+    'filmgear-2000w':{emitter:'point',mount:'fresnel',powerDraw:2200,lux1m:750000,beam:24,focusMin:8,focusMax:45,quality:'category'},
+    'lightstar-150w':{emitter:'point',mount:'fresnel',powerDraw:150,lux1m:12000,beam:32,focusMin:15,focusMax:55,quality:'category'},
+    'lightstar-300w':{emitter:'point',mount:'fresnel',powerDraw:300,lux1m:25000,beam:32,focusMin:15,focusMax:55,quality:'category'},
+    'lightstar-650w':{emitter:'point',mount:'fresnel',powerDraw:650,lux1m:60000,beam:30,focusMin:14,focusMax:52,quality:'category'},
+    'lightstar-1000w':{emitter:'point',mount:'fresnel',powerDraw:1000,lux1m:110000,beam:28,focusMin:12,focusMax:50,quality:'category'},
+    'aputure-ls600x-pro':{emitter:'point',mount:'bowens',powerDraw:720,lux1m:11630,beam:120,reflectorLux1m:56100,reflectorBeam:55,fresnelMin:15,fresnelMax:45,quality:'manufacturer'},
+    'aputure-1200d-pro':{emitter:'point',mount:'bowens',powerDraw:1440,lux1m:124000,beam:66,reflectorLux1m:400000,reflectorBeam:30,fresnelMin:15,fresnelMax:45,quality:'derived'},
+    'tungsten-yellow-2000w':{emitter:'point',mount:'openface',powerDraw:2000,lux1m:80000,beam:50,focusMin:30,focusMax:75,quality:'category'},
+    'tungsten-orange-800w':{emitter:'point',mount:'openface',powerDraw:800,lux1m:26000,beam:55,focusMin:35,focusMax:80,quality:'category'},
+    'tungsten-red-800w':{emitter:'point',mount:'openface',powerDraw:800,lux1m:26000,beam:55,focusMin:35,focusMax:80,quality:'category'},
+    'kino-4-bank-220w':{emitter:'kino',mount:'kino',powerDraw:220,lux1m:2700,beam:90,emitters:4,width:1.20,height:.28,quality:'category'},
+    'kino-2-bank-110w':{emitter:'kino',mount:'kino',powerDraw:110,lux1m:1350,beam:90,emitters:2,width:1.20,height:.15,quality:'category'}
+  };
   let selectedFixtureId='amaran-300c';
   const ROLE_DEFAULT={
     key:  {az:40,  el:32, dist:3.1, intensity:1.00},
@@ -2380,11 +2483,71 @@ initLightingHeroMotion();
     bg:   {az:170, el:24, dist:2.1, intensity:0.68}
   };
   const PRESETS={
-    threepoint:{ key:{az:40,el:32,dist:3.1}, fill:{az:-42,el:18,dist:3.9}, back:{az:172,el:52,dist:2.5} },
-    rembrandt:{  key:{az:46,el:42,dist:2.9}, fill:{az:-55,el:14,dist:4.6} },
-    butterfly:{  key:{az:0, el:58,dist:2.7} },
-    split:{      key:{az:88,el:14,dist:2.8} }
+    threepoint:{label:'Three-Point',desc:'Key, Fill และ Back แยกมิติของใบหน้าและฉากอย่างสมดุล',lights:{
+      key:{az:40,el:32,dist:3.1,intensity:1,modifierId:'softbox'},
+      fill:{az:-42,el:18,dist:3.9,intensity:.93,modifierId:'diffusion'},
+      back:{az:172,el:52,dist:2.5,intensity:.35,modifierId:'barndoors'}}},
+    rembrandt:{label:'Rembrandt',desc:'Key สูงด้านข้างสร้างสามเหลี่ยมแสงใต้ตา พร้อม Fill เบา ๆ',lights:{
+      key:{az:46,el:42,dist:2.9,intensity:1,modifierId:'softbox'},
+      fill:{az:-55,el:14,dist:4.6,intensity:.55,modifierId:'diffusion'}}},
+    butterfly:{label:'Butterfly',desc:'Key อยู่กึ่งกลางและสูง เกิดเงารูปผีเสื้อใต้จมูก เหมาะ Beauty',lights:{
+      key:{az:0,el:58,dist:2.7,intensity:1,modifierId:'softbox'},
+      fill:{az:0,el:-3,dist:3.4,intensity:.85,modifierId:'none'}}},
+    split:{label:'Split',desc:'Key ด้านข้างเกือบ 90° แบ่งใบหน้าเป็นด้านสว่างและด้านเงา',lights:{
+      key:{az:88,el:14,dist:2.8,intensity:1,modifierId:'barndoors'},
+      fill:{az:-70,el:10,dist:5.2,intensity:1,modifierId:'diffusion'}}},
+    loop:{label:'Loop',desc:'Key เยื้องกล้องเล็กน้อย เกิดเงาจมูกสั้นและเป็นธรรมชาติ',lights:{
+      key:{az:28,el:34,dist:3,intensity:1,modifierId:'softbox'},
+      fill:{az:-38,el:15,dist:4.2,intensity:.85,modifierId:'diffusion'},
+      back:{az:150,el:40,dist:3,intensity:.45,modifierId:'softgrid'}}},
+    silhouette:{label:'Silhouette',desc:'ปิดแสงด้านหน้า ใช้ Back และ Background เพื่อสร้างเส้นขอบ',lights:{
+      back:{az:180,el:34,dist:2.4,intensity:1,modifierId:'barndoors'},
+      bg:{az:170,el:22,dist:2.1,intensity:.8,modifierId:'reflector'}}},
+    highkey:{label:'High Key',desc:'แสงด้านหน้าสว่างและ Fill สูง ลดเงาสำหรับ Beauty และงานสดใส',lights:{
+      key:{az:30,el:32,dist:2.8,intensity:1,modifierId:'softbox'},
+      fill:{az:-30,el:24,dist:3,intensity:.7,modifierId:'umbrella'},
+      back:{az:155,el:44,dist:3,intensity:.58,modifierId:'softgrid'},
+      bg:{az:175,el:18,dist:2.2,intensity:.78,modifierId:'diffusion'}}},
+    lowkey:{label:'Low Key',desc:'จำกัด Spill และปล่อยด้านเงาให้ลึก เหมาะงานดราม่า',lights:{
+      key:{az:58,el:28,dist:2.8,intensity:.88,modifierId:'softgrid'},
+      back:{az:148,el:42,dist:3.2,intensity:.38,modifierId:'barndoors'}}},
+    interview:{label:'Interview',desc:'ไฟนุ่มดูเป็นธรรมชาติ พร้อม Hair Light และ Practical ในฉาก',lights:{
+      key:{az:35,el:34,dist:3.1,intensity:.92,modifierId:'softbox'},
+      fill:{az:-42,el:16,dist:4.2,intensity:1,modifierId:'diffusion'},
+      back:{az:145,el:46,dist:3,intensity:.5,modifierId:'softgrid'},
+      prac:{az:78,el:5,dist:2.1,intensity:.2,modifierId:'none',cct:3200}}},
+    product:{label:'Product',desc:'แสงใหญ่สองด้านคุม Reflection พร้อม Edge และ Background แยกสินค้า',lights:{
+      key:{az:38,el:46,dist:2.5,intensity:.8,modifierId:'none'},
+      fill:{az:-52,el:34,dist:2.8,intensity:1,modifierId:'none'},
+      back:{az:158,el:38,dist:2.7,intensity:.1,modifierId:'barndoors'},
+      bg:{az:178,el:16,dist:2.2,intensity:.18,modifierId:'diffusion'}}},
+    cinematic:{label:'Cinematic',desc:'ผสม Key อุ่นกับ Fill/Back เย็น พร้อมคอนทราสต์สำหรับอารมณ์ภาพยนตร์',lights:{
+      key:{az:54,el:28,dist:2.8,intensity:.92,modifierId:'softgrid',cct:4300},
+      fill:{az:-58,el:12,dist:4.6,intensity:.4,modifierId:'diffusion',cct:6500},
+      back:{az:148,el:48,dist:2.8,intensity:.22,modifierId:'barndoors',cct:7500},
+      bg:{az:178,el:20,dist:2.1,intensity:.08,modifierId:'softgrid',colorMode:'rgb',rgbColor:'#315dff'}}},
+    horror:{label:'Horror',desc:'Key จากมุมต่ำสร้างเงาผิดธรรมชาติ เสริมฉากหลังสีแดงอย่างควบคุม',lights:{
+      key:{az:4,el:-5,dist:2.2,intensity:.82,modifierId:'barndoors',cct:3200},
+      back:{az:165,el:32,dist:3,intensity:.5,modifierId:'none',cct:5600},
+      bg:{az:178,el:16,dist:2,intensity:.58,modifierId:'softgrid',colorMode:'rgb',rgbColor:'#ff244d'}}}
   };
+  const PRESET_RECOMMENDED_FIXTURES={
+    threepoint:{key:'amaran-300c',fill:'yongnuo-yn600lii',back:'nanlite-fs-60'},
+    rembrandt:{key:'amaran-300c',fill:'yongnuo-yn600lii'},
+    butterfly:{key:'amaran-300c',fill:'kino-4-bank-220w'},
+    split:{key:'nanlite-fc-300b',fill:'yongnuo-yn600lii'},
+    loop:{key:'amaran-300c',fill:'yongnuo-yn600lii',back:'nanlite-fs-60'},
+    silhouette:{back:'nanlite-fc-300b',bg:'nanlite-fs-300c'},
+    highkey:{key:'amaran-300c',fill:'nanlite-fs-300b',back:'nanlite-fs-60',bg:'yongnuo-yn600lii'},
+    lowkey:{key:'amaran-300c',back:'nanlite-fs-60'},
+    interview:{key:'amaran-300c',fill:'yongnuo-yn600lii',back:'nanlite-fs-60',prac:'ulanzi-vl119'},
+    product:{key:'kino-4-bank-220w',fill:'kino-2-bank-110w',back:'nanlite-fc-300b',bg:'nanlite-fs-300c'},
+    cinematic:{key:'amaran-300c',fill:'nanlite-fs-300b',back:'nanlite-fs-300c',bg:'nanlite-fs-300c'},
+    horror:{key:'tungsten-orange-800w',back:'filmgear-575w',bg:'nanlite-fs-300c'}
+  };
+  let currentPresetName=null;
+  let applyingPreset=false;
+  let presetFinalizeTimer=null;
 
   function getFixture(id){
     for(let index=0;index<LIGHT_FIXTURES.length;index+=1){
@@ -2394,6 +2557,127 @@ initLightingHeroMotion();
   }
   function fixtureName(fixture){
     return (fixture.brand==='—'?'':fixture.brand+' ')+fixture.model;
+  }
+  function getModifier(id){
+    for(let index=0;index<LIGHT_MODIFIERS.length;index+=1){
+      if(LIGHT_MODIFIERS[index].id===id) return LIGHT_MODIFIERS[index];
+    }
+    return LIGHT_MODIFIERS[0];
+  }
+  function getPhotometricProfile(fixtureOrId){
+    const fixture=typeof fixtureOrId==='string'?getFixture(fixtureOrId):fixtureOrId;
+    return PHOTOMETRIC_PROFILES[fixture.id]||{
+      emitter:'point',mount:'none',powerDraw:fixture.watts,
+      lux1m:Math.max(80,fixture.watts*35),beam:fixture.beamDefault,
+      emitters:1,width:.1,height:.1,quality:'category'
+    };
+  }
+  function profileQualityLabel(quality){
+    if(quality==='manufacturer') return 'ข้อมูลผู้ผลิต';
+    if(quality==='derived') return 'คำนวณจากสเปก';
+    return 'โปรไฟล์มาตรฐาน';
+  }
+  function modifierSupported(fixture,modifierId){
+    if(modifierId==='none'||modifierId==='diffusion') return true;
+    const mount=getPhotometricProfile(fixture).mount;
+    if(modifierId==='reflector'||modifierId==='fresnel') return mount==='bowens'||mount==='fm';
+    if(modifierId==='softbox'||modifierId==='umbrella') return mount==='bowens'||mount==='fm'||mount==='openface';
+    if(modifierId==='softgrid') return ['bowens','fm','openface','panel','tube','kino'].indexOf(mount)>=0;
+    if(modifierId==='barndoors') return ['bowens','fm','fresnel','openface','panel','tube','kino'].indexOf(mount)>=0;
+    return false;
+  }
+  function resolveModifierId(fixture,requestedId){
+    if(modifierSupported(fixture,requestedId)) return requestedId;
+    if((requestedId==='softbox'||requestedId==='softgrid'||requestedId==='umbrella')&&modifierSupported(fixture,'diffusion')) return 'diffusion';
+    return 'none';
+  }
+  function modifierOptions(selectedId,fixture){
+    return LIGHT_MODIFIERS.map(modifier=>{
+      const selected=modifier.id===selectedId?' selected':'';
+      const supported=!fixture||modifierSupported(fixture,modifier.id);
+      const disabled=supported?'':' disabled';
+      return '<option value="'+modifier.id+'"'+selected+disabled+'>'+modifier.label+(supported?'':' · ไม่รองรับ')+'</option>';
+    }).join('');
+  }
+  function modifierSoftness(fixture,modifier){
+    return modifier.softness===null?fixture.softness:modifier.softness;
+  }
+  function beamControlRange(state){
+    const fixture=getFixture(state.fixtureId);
+    const profile=getPhotometricProfile(fixture);
+    const modifier=getModifier(state.modifierId);
+    if(modifier.id==='reflector'&&profile.reflectorBeam) return {min:profile.reflectorBeam,max:profile.reflectorBeam,adjustable:false};
+    if(modifier.id==='fresnel'&&profile.fresnelMin) return {min:profile.fresnelMin,max:profile.fresnelMax,adjustable:true};
+    if(profile.focusMin&&(modifier.id==='none'||modifier.id==='barndoors')) return {min:profile.focusMin,max:profile.focusMax,adjustable:true};
+    return {min:profile.beam,max:profile.beam,adjustable:false};
+  }
+  function effectiveBeamAngle(state){
+    const fixture=getFixture(state.fixtureId);
+    const profile=getPhotometricProfile(fixture);
+    const modifier=getModifier(state.modifierId);
+    if(modifier.id==='reflector'&&profile.reflectorBeam) return profile.reflectorBeam;
+    if(modifier.id==='fresnel'&&profile.fresnelMin){
+      return THREE.MathUtils.clamp(state.spread,profile.fresnelMin,profile.fresnelMax);
+    }
+    const baseBeam=profile.focusMin
+      ?THREE.MathUtils.clamp(state.spread,profile.focusMin,profile.focusMax)
+      :profile.beam;
+    return THREE.MathUtils.clamp(baseBeam*modifier.beamScale,4,150);
+  }
+  function beamSolidAngle(degrees){
+    const halfAngle=THREE.MathUtils.degToRad(THREE.MathUtils.clamp(degrees,4,170)/2);
+    return 2*Math.PI*(1-Math.cos(halfAngle));
+  }
+  function photometricCandela(state){
+    const fixture=getFixture(state.fixtureId);
+    const profile=getPhotometricProfile(fixture);
+    const modifier=getModifier(state.modifierId);
+    let referenceLux=profile.lux1m;
+    let referenceBeam=profile.beam;
+    let transmission=modifier.transmission;
+    if(modifier.id==='reflector'&&profile.reflectorLux1m){
+      referenceLux=profile.reflectorLux1m;
+      referenceBeam=profile.reflectorBeam;
+      transmission=1;
+    }
+    const beamRatio=THREE.MathUtils.clamp(
+      beamSolidAngle(referenceBeam)/beamSolidAngle(effectiveBeamAngle(state)),.05,25
+    );
+    const rgbFactor=fixture.rgb&&state.colorMode==='rgb' ? .72 : 1;
+    const cctCenter=(fixture.cctMin+fixture.cctMax)/2;
+    const cctRange=Math.max(1,fixture.cctMax-fixture.cctMin);
+    const cctFactor=fixture.cctMin===fixture.cctMax?1:(1-.14*Math.abs(state.cct-cctCenter)/(cctRange/2));
+    return Math.max(0,referenceLux*beamRatio*transmission*state.intensity*rgbFactor*cctFactor);
+  }
+  function effectiveFixtureOutput(state){
+    return photometricCandela(state)/(state.dist*state.dist);
+  }
+  function formatLux(value){
+    if(!Number.isFinite(value)) return '—';
+    if(value>=1000000) return (value/1000000).toFixed(2)+'M lx';
+    if(value>=1000) return (value/1000).toFixed(value>=10000?0:1)+'k lx';
+    return Math.round(value)+' lx';
+  }
+  function modifierSummary(state){
+    const modifier=getModifier(state.modifierId);
+    return modifier.desc+' · Beam '+Math.round(effectiveBeamAngle(state))+'° · Transmission '+Math.round(modifier.transmission*100)+'% · ตัวแบบประมาณ '+formatLux(effectiveFixtureOutput(state));
+  }
+  function setPresetStatus(name,description){
+    currentPresetName=name||null;
+    document.querySelectorAll('.dg-preset-btn').forEach(button=>{
+      const active=!!name&&button.dataset.preset===name;
+      button.classList.toggle('active',active);
+      button.setAttribute('aria-pressed',String(active));
+    });
+    if(!presetStatusEl) return;
+    const preset=name&&PRESETS[name];
+    presetStatusEl.innerHTML=preset
+      ?'<strong>'+preset.label+'</strong><span>'+preset.desc+'</span>'
+      :'<strong>โหมดอิสระ</strong><span>'+(description||'วางไฟและปรับค่าด้วยตัวเอง')+'</span>';
+  }
+  function markCustomSetup(description){
+    if(applyingPreset) return;
+    if(currentPresetName||description) setPresetStatus(null,description);
   }
   function fixtureOptions(selectedId){
     const groups=['Video Lights','Cinema Lights'];
@@ -2409,24 +2693,6 @@ initLightingHeroMotion();
     return fixture.cctMin===fixture.cctMax
       ?fixture.cctDefault+'K'
       :fixture.cctMin+'–'+fixture.cctMax+'K';
-  }
-  function fixtureEfficiency(fixture){
-    if(fixture.tech==='hmi') return 1.35;
-    if(fixture.tech==='tungsten') return 0.34;
-    if(fixture.tech==='fluorescent') return 0.58;
-    return 1;
-  }
-  function fixtureOutputScale(fixture){
-    return THREE.MathUtils.clamp(Math.sqrt((fixture.watts*fixtureEfficiency(fixture))/100),0.2,5.4);
-  }
-  function beamConcentration(spread){
-    const reference=2*Math.PI*(1-Math.cos(THREE.MathUtils.degToRad(55/2)));
-    const current=2*Math.PI*(1-Math.cos(THREE.MathUtils.degToRad(Math.max(4,spread)/2)));
-    return THREE.MathUtils.clamp(reference/current,0.38,5.8);
-  }
-  function effectiveFixtureOutput(state){
-    const fixture=getFixture(state.fixtureId);
-    return fixtureOutputScale(fixture)*state.intensity*beamConcentration(state.spread)/(state.dist*state.dist);
   }
   function kelvinToHex(kelvin){
     const temperature=THREE.MathUtils.clamp(kelvin,1000,40000)/100;
@@ -2449,16 +2715,37 @@ initLightingHeroMotion();
   }
   function createLightState(type,overrides){
     const fixture=getFixture(selectedFixtureId);
-    return Object.assign({},ROLE_DEFAULT[type],{
+    const modifier=getModifier(overrides&&overrides.modifierId);
+    const hasExplicitSoftness=!!(overrides&&Object.prototype.hasOwnProperty.call(overrides,'softness'));
+    const hasExplicitSpread=!!(overrides&&Object.prototype.hasOwnProperty.call(overrides,'spread'));
+    const state=Object.assign({},ROLE_DEFAULT[type],{
       fixtureId:fixture.id,
-      spread:fixture.beamDefault,
+      spread:getPhotometricProfile(fixture).beam,
       cct:fixture.cctDefault,
       rgbColor:'#ffffff',
-      colorMode:'cct'
+      colorMode:'cct',
+      modifierId:modifier.id,
+      softness:modifierSoftness(fixture,modifier)
     },overrides||{});
+    const stateFixture=getFixture(state.fixtureId);
+    state.modifierId=resolveModifierId(stateFixture,state.modifierId);
+    const stateModifier=getModifier(state.modifierId);
+    state.modifierId=stateModifier.id;
+    if(!hasExplicitSoftness) state.softness=modifierSoftness(stateFixture,stateModifier);
+    const beamRange=beamControlRange(state);
+    if(!hasExplicitSpread||!Number.isFinite(state.spread)) state.spread=(beamRange.min+beamRange.max)/2;
+    state.spread=THREE.MathUtils.clamp(state.spread,beamRange.min,beamRange.max);
+    state.cct=THREE.MathUtils.clamp(state.cct,stateFixture.cctMin,stateFixture.cctMax);
+    state.intensity=THREE.MathUtils.clamp(Number.isFinite(state.intensity)?state.intensity:1,0,1);
+    state.softness=THREE.MathUtils.clamp(
+      Number.isFinite(state.softness)?state.softness:modifierSoftness(stateFixture,stateModifier),0,1
+    );
+    if(!stateFixture.rgb) state.colorMode='cct';
+    return state;
   }
   function renderFixturePicker(){
     const fixture=getFixture(selectedFixtureId);
+    const profile=getPhotometricProfile(fixture);
     if(fixtureSelectEl){
       fixtureSelectEl.innerHTML=fixtureOptions(fixture.id);
       fixtureSelectEl.value=fixture.id;
@@ -2469,16 +2756,79 @@ initLightingHeroMotion();
       <span class="dg-fixture-spec-meta">
         <span class="dg-fixture-chip">${fixture.group}</span>
         <span class="dg-fixture-chip">${fixture.source}</span>
-        <span class="dg-fixture-chip">${fixture.watts}W</span>
+        <span class="dg-fixture-chip">Light Engine ${fixture.watts}W</span>
+        <span class="dg-fixture-chip">Power Draw ${profile.powerDraw}W</span>
         <span class="dg-fixture-chip">${fixtureCctLabel(fixture)}${fixture.rgb?' · RGB':''}</span>
         ${fixture.cri!=='—'?`<span class="dg-fixture-chip">CRI ${fixture.cri}</span>`:''}
-        <span class="dg-fixture-chip">Beam ${fixture.beamMin}–${fixture.beamMax}°</span>
+        <span class="dg-fixture-chip">${formatLux(profile.lux1m)} @ 1m</span>
+        <span class="dg-fixture-chip">Beam ${profile.beam}°</span>
+        <span class="dg-fixture-chip">${profileQualityLabel(profile.quality)}</span>
       </span>
-      <div class="dg-fixture-spec-copy">${fixture.desc}</div>`;
+      <div class="dg-fixture-spec-copy">${fixture.desc} · ระบบจะเปลี่ยนรูปแบบ emitter และจำนวนแหล่งกำเนิดตามชนิดโคมกับสมรรถนะอุปกรณ์</div>`;
   }
 
   let lights={};          // type -> {az,el,dist,spread,intensity}
   let currentSubjectKey='humanfull';
+
+  const DEVICE_CAPABILITY={
+    coarse:!!(window.matchMedia&&window.matchMedia('(pointer:coarse)').matches),
+    reducedMotion:prefersReducedMotion,
+    cores:Math.max(1,navigator.hardwareConcurrency||4),
+    memory:Math.max(1,navigator.deviceMemory||6),
+    saveData:!!(navigator.connection&&navigator.connection.saveData),
+    pixelRatio:window.devicePixelRatio||1,
+    viewportWidth:window.innerWidth||1024
+  };
+  const RENDER_TIER=(DEVICE_CAPABILITY.saveData||DEVICE_CAPABILITY.viewportWidth<680||DEVICE_CAPABILITY.cores<=4||DEVICE_CAPABILITY.memory<=4)
+    ?'performance'
+    :(!DEVICE_CAPABILITY.coarse&&DEVICE_CAPABILITY.viewportWidth>=1180&&DEVICE_CAPABILITY.cores>=8&&DEVICE_CAPABILITY.memory>=8
+      ?'photometric':'balanced');
+  const RENDER_TIER_LABEL={performance:'Performance · Low Power',balanced:'Balanced',photometric:'Desktop · Photometric'}[RENDER_TIER];
+  const PHOTOMETRIC_RENDER_SCALE=.003;
+  const emitterOffsetWorld=new THREE.Vector3();
+
+  function emitterCountForProfile(profile){
+    const requested=Math.max(1,profile.emitters||1);
+    if(profile.emitter==='point') return 1;
+    if(RENDER_TIER==='performance') return profile.emitter==='cluster'?Math.min(2,requested):1;
+    if(RENDER_TIER==='balanced'){
+      const cap=profile.emitter==='ring'?6:(profile.emitter==='panel'?4:3);
+      return Math.min(cap,requested);
+    }
+    return Math.min(8,requested);
+  }
+  function emitterLayout(profile){
+    const count=emitterCountForProfile(profile);
+    const width=Math.max(.04,profile.width||.16);
+    const height=Math.max(.04,profile.height||.12);
+    const offsets=[];
+    if(count===1) return [new THREE.Vector3(0,0,0)];
+    if(profile.emitter==='ring'){
+      const radius=Math.max(width,height)*.42;
+      for(let index=0;index<count;index+=1){
+        const angle=Math.PI*2*index/count;
+        offsets.push(new THREE.Vector3(Math.cos(angle)*radius,0,Math.sin(angle)*radius));
+      }
+      return offsets;
+    }
+    if(profile.emitter==='tube'||profile.emitter==='kino'){
+      for(let index=0;index<count;index+=1){
+        const normalized=count===1?0:index/(count-1)-.5;
+        offsets.push(new THREE.Vector3(normalized*width,0,0));
+      }
+      return offsets;
+    }
+    const columns=Math.ceil(Math.sqrt(count));
+    const rows=Math.ceil(count/columns);
+    for(let index=0;index<count;index+=1){
+      const column=index%columns;
+      const row=Math.floor(index/columns);
+      const x=columns===1?0:(column/(columns-1)-.5)*width;
+      const z=rows===1?0:(row/(rows-1)-.5)*height;
+      offsets.push(new THREE.Vector3(x,0,z));
+    }
+    return offsets;
+  }
 
   /* ---------- scene ---------- */
   const scene=new THREE.Scene();
@@ -2489,7 +2839,10 @@ initLightingHeroMotion();
 
   let renderer;
   try{
-    renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+    renderer=new THREE.WebGLRenderer({
+      canvas,antialias:RENDER_TIER!=='performance',alpha:true,
+      powerPreference:RENDER_TIER==='performance'?'low-power':'high-performance'
+    });
   }catch(error){
     try{
       renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:true});
@@ -2517,7 +2870,9 @@ initLightingHeroMotion();
       const pmremGenerator=new THREE.PMREMGenerator(renderer);
       const roomEnvironment=new THREE.RoomEnvironment();
       studioEnvironmentTarget=pmremGenerator.fromScene(roomEnvironment,0.04);
-      scene.environment=studioEnvironmentTarget.texture;
+      // Keep the reflection map ready, but start with a genuinely dark stage.
+      // It is enabled only when at least one user light is producing output.
+      scene.environment=null;
       const environmentGeometries=[];
       const environmentMaterials=[];
       roomEnvironment.traverse(object=>{
@@ -2552,32 +2907,51 @@ initLightingHeroMotion();
   controls.maxDistance=9;
   controls.maxPolarAngle=Math.PI*0.49;
 
-  const hemi=new THREE.HemisphereLight(0x9fb4ff,0x2a2233,studioEnvironmentTarget?0.24:0.38);
+  const STAGE_AMBIENT_LEVELS=studioEnvironmentTarget
+    ?{dark:0.045,lit:0.09}
+    :{dark:0.07,lit:0.13};
+  const hemi=new THREE.HemisphereLight(0x8798cf,0x110e18,STAGE_AMBIENT_LEVELS.dark);
   scene.add(hemi);
 
-  const groundMat=new THREE.MeshStandardMaterial({color:0x191526,roughness:0.92,metalness:0});
+  let stageAmbientActive=false;
+  function syncStageAmbient(animate){
+    const active=Object.keys(lights).some(type=>lights[type]&&lights[type].intensity>.01);
+    if(active===stageAmbientActive) return;
+    stageAmbientActive=active;
+    scene.environment=active&&studioEnvironmentTarget?studioEnvironmentTarget.texture:null;
+    const targetIntensity=active?STAGE_AMBIENT_LEVELS.lit:STAGE_AMBIENT_LEVELS.dark;
+    if(animate&&gsapReady&&!prefersReducedMotion){
+      gsap.killTweensOf(hemi);
+      gsap.to(hemi,{intensity:targetIntensity,duration:.42,ease:'power2.out'});
+    }else{
+      hemi.intensity=targetIntensity;
+    }
+  }
+  syncStageAmbient(false);
+
+  const groundMat=new THREE.MeshStandardMaterial({color:0x090711,roughness:0.94,metalness:0});
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(14,14),groundMat);
   ground.rotation.x=-Math.PI/2;
   ground.position.y=-0.012;
   ground.receiveShadow=true;
   scene.add(ground);
 
-  const floorGrid=new THREE.GridHelper(12,24,0x67627f,0x302c43);
+  const floorGrid=new THREE.GridHelper(12,24,0x4d4962,0x211e2e);
   floorGrid.position.y=0.004;
   floorGrid.material.transparent=true;
-  floorGrid.material.opacity=0.48;
+  floorGrid.material.opacity=0.27;
   floorGrid.material.depthWrite=false;
   scene.add(floorGrid);
 
   const shootingAreaMat=new THREE.MeshBasicMaterial({
-    color:0x67c8ff,transparent:true,opacity:0.22,side:THREE.DoubleSide,depthWrite:false
+    color:0x67c8ff,transparent:true,opacity:0.13,side:THREE.DoubleSide,depthWrite:false
   });
   const shootingAreaRing=new THREE.Mesh(new THREE.RingGeometry(1.72,1.75,72),shootingAreaMat);
   shootingAreaRing.rotation.x=-Math.PI/2;
   shootingAreaRing.position.y=0.009;
   scene.add(shootingAreaRing);
 
-  const backdropMat=new THREE.MeshStandardMaterial({color:0x1a1530,roughness:1,metalness:0});
+  const backdropMat=new THREE.MeshStandardMaterial({color:0x0c0918,roughness:1,metalness:0});
   const backdrop=new THREE.Mesh(new THREE.PlaneGeometry(9,5),backdropMat);
   backdrop.position.set(0,2.4,-3.1);
   backdrop.receiveShadow=true;
@@ -3329,116 +3703,9 @@ initLightingHeroMotion();
     }
   };
 
-  /* ---------- realistic camera on tripod (fixed shooting-position marker) ---------- */
-  const CAM_MARKER=new THREE.Vector3(0,1.35,3.6);
-  const camGizmo=new THREE.Group();
-  camGizmo.position.set(CAM_MARKER.x,0,CAM_MARKER.z);
-  scene.add(camGizmo);
-
-  function addCameraMesh(geometry,material,position,rotation){
-    const mesh=new THREE.Mesh(geometry,material);
-    if(position) mesh.position.set(position[0],position[1],position[2]);
-    if(rotation) mesh.rotation.set(rotation[0],rotation[1],rotation[2]);
-    mesh.castShadow=true;
-    mesh.receiveShadow=true;
-    camGizmo.add(mesh);
-    return mesh;
-  }
-  function addCameraLeg(from,to,radius,material){
-    const start=new THREE.Vector3(from[0],from[1],from[2]);
-    const end=new THREE.Vector3(to[0],to[1],to[2]);
-    const direction=end.clone().sub(start);
-    const leg=addCameraMesh(new THREE.CylinderGeometry(radius,radius*0.82,direction.length(),8),material);
-    leg.position.copy(start).lerp(end,0.5);
-    leg.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction.normalize());
-  }
-  function addCameraContactShadow(){
-    const material=new THREE.MeshBasicMaterial({
-      color:0x05040a,transparent:true,opacity:0.2,depthWrite:false,side:THREE.DoubleSide
-    });
-    const shadow=addCameraMesh(new THREE.CircleGeometry(0.48,40),material,[0,0.012,0],[-Math.PI/2,0,0]);
-    shadow.scale.y=0.58;
-    shadow.castShadow=false;
-    shadow.receiveShadow=false;
-    shadow.renderOrder=1;
-  }
-  function buildCameraFallback(){
-    const bodyMaterial=new THREE.MeshStandardMaterial({color:0x484b56,roughness:0.54,metalness:0.34});
-    const darkMaterial=new THREE.MeshStandardMaterial({color:0x12131a,roughness:0.62,metalness:0.28});
-    addCameraMesh(new THREE.BoxGeometry(0.34,0.24,0.2),bodyMaterial,[0,1.34,0]);
-    addCameraMesh(new THREE.CylinderGeometry(0.085,0.105,0.18,20),darkMaterial,[0,1.34,-0.17],[Math.PI/2,0,0]);
-    addCameraMesh(new THREE.CylinderGeometry(0.07,0.08,0.12,16),darkMaterial,[0,1.16,0]);
-    addCameraLeg([0,1.12,0],[-0.38,0.03,0.26],0.025,darkMaterial);
-    addCameraLeg([0,1.12,0],[0.38,0.03,0.26],0.025,darkMaterial);
-    addCameraLeg([0,1.12,0],[0,0.03,-0.42],0.025,darkMaterial);
-    addCameraContactShadow();
-  }
-  function clearCameraGizmo(){
-    const geometries=[];
-    const materials=[];
-    camGizmo.children.slice().forEach(child=>{
-      child.traverse(object=>{
-        if(object.geometry&&geometries.indexOf(object.geometry)<0) geometries.push(object.geometry);
-        const objectMaterials=Array.isArray(object.material)?object.material:[object.material];
-        objectMaterials.forEach(material=>{
-          if(material&&materials.indexOf(material)<0) materials.push(material);
-        });
-      });
-      camGizmo.remove(child);
-    });
-    geometries.forEach(geometry=>geometry.dispose());
-    materials.forEach(material=>material.dispose());
-  }
-  function loadStudioCamera(){
-    if(typeof THREE.GLTFLoader!=='function'||!window.STUDIO_CAMERA_GLB_BASE64) return;
-    try{
-      const loader=new THREE.GLTFLoader();
-      loader.parse(decodeModelBase64(window.STUDIO_CAMERA_GLB_BASE64),'',gltf=>{
-        const imported=gltf.scene||(gltf.scenes&&gltf.scenes[0]);
-        if(!imported) return;
-        try{
-          // The source lens faces +Z; rotate it toward the subject at world -Z.
-          imported.rotation.y=Math.PI;
-          imported.updateMatrixWorld(true);
-          const initialBox=new THREE.Box3().setFromObject(imported);
-          const initialSize=initialBox.getSize(new THREE.Vector3());
-          if(!Number.isFinite(initialSize.y)||initialSize.y<=0) return;
-          imported.scale.setScalar(1.58/initialSize.y);
-          imported.updateMatrixWorld(true);
-          const scaledBox=new THREE.Box3().setFromObject(imported);
-          const scaledCenter=scaledBox.getCenter(new THREE.Vector3());
-          imported.position.x-=scaledCenter.x;
-          imported.position.y-=scaledBox.min.y;
-          imported.position.z-=scaledCenter.z;
-          const maxAnisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy?renderer.capabilities.getMaxAnisotropy():1);
-          imported.traverse(object=>{
-            if(!object.isMesh) return;
-            object.castShadow=true;
-            object.receiveShadow=true;
-            const objectMaterials=Array.isArray(object.material)?object.material:[object.material];
-            objectMaterials.forEach(material=>{
-              if(!material) return;
-              ['map','normalMap','roughnessMap','metalnessMap'].forEach(slot=>{
-                if(material[slot]){
-                  material[slot].anisotropy=maxAnisotropy;
-                  material[slot].needsUpdate=true;
-                }
-              });
-            });
-          });
-          clearCameraGizmo();
-          camGizmo.add(imported);
-          addCameraContactShadow();
-        }catch(error){
-          console.warn('Could not prepare studio camera model:',error);
-        }
-      },error=>console.warn('Could not parse studio camera model:',error));
-    }catch(error){
-      console.warn('Could not load studio camera model:',error);
-    }
-  }
-  buildCameraFallback();
-  window.setTimeout(loadStudioCamera,80);
+  // Reference axis for left/right lighting readouts. This is a mathematical
+  // shooting position only; no camera or tripod model is rendered in the set.
+  const CAMERA_REFERENCE=new THREE.Vector3(0,1.35,3.6);
 
   /* ---------- light management ---------- */
   let lightObjs={};
@@ -3515,11 +3782,12 @@ initLightingHeroMotion();
     Object.keys(lightObjs).forEach(updateFixtureEmitter);
     if(nextType){
       const fixture=getFixture(lights[nextType].fixtureId);
+      const modifier=getModifier(lights[nextType].modifierId);
       selectedFixtureId=fixture.id;
       renderFixturePicker();
       drawSelectionMarker(nextType);
       updateSelectionMarkerPosition();
-      selectionStatusEl.textContent='◎ '+TYPE_META[nextType].label+' · '+fixtureName(fixture);
+      selectionStatusEl.textContent='◎ '+TYPE_META[nextType].label+' · '+fixtureName(fixture)+' · '+modifier.short;
       selectionStatusEl.classList.add('show');
       if(animateMarker&&gsapReady&&!prefersReducedMotion){
         gsap.killTweensOf(selectedLightMarker.scale);
@@ -3556,10 +3824,11 @@ initLightingHeroMotion();
     group.add(mesh);
     return mesh;
   }
-  function createFixtureGizmo(type,fixture,color){
+  function createFixtureGizmo(type,fixture,color,modifierId){
     const group=new THREE.Group();
     group.name='DiagramFixture_'+fixture.id;
     group.userData.type=type;
+    group.userData.modifierId=getModifier(modifierId).id;
     const housingColor=fixture.housing||0x262936;
     const housingMat=new THREE.MeshStandardMaterial({color:housingColor,roughness:.58,metalness:.38});
     const trimMat=new THREE.MeshStandardMaterial({color:0x090b10,roughness:.48,metalness:.62});
@@ -3622,6 +3891,55 @@ initLightingHeroMotion();
       addFixtureMesh(group,type,new THREE.CylinderGeometry(.105,.105,.012,22),emitterMat,[0,-.23,0]);
     }
 
+    const modifier=getModifier(modifierId);
+    if(modifier.shape!=='none'){
+      const modifierDarkMat=new THREE.MeshStandardMaterial({color:0x11131a,roughness:.62,metalness:.34,side:THREE.DoubleSide});
+      const modifierMetalMat=new THREE.MeshStandardMaterial({color:0x747784,roughness:.32,metalness:.68,side:THREE.DoubleSide});
+      const modifierDiffuserMat=new THREE.MeshStandardMaterial({
+        color:0xf1f5ff,emissive:color,emissiveIntensity:.34,roughness:.9,metalness:0,
+        transparent:true,opacity:.88,side:THREE.DoubleSide
+      });
+      modifierDiffuserMat.userData.fixtureEmitter=true;
+      if(modifier.shape==='reflector'){
+        addFixtureMesh(group,type,new THREE.ConeGeometry(.21,.2,24,1,true),modifierMetalMat,[0,-.2,0]);
+      }else if(modifier.shape==='fresnel'){
+        addFixtureMesh(group,type,new THREE.ConeGeometry(.19,.18,24,1,true),modifierDarkMat,[0,-.18,0]);
+        addFixtureMesh(group,type,new THREE.CylinderGeometry(.145,.145,.018,28),modifierDiffuserMat,[0,-.28,0]);
+      }else if(modifier.shape==='softbox'||modifier.shape==='softgrid'){
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.42,.06,.32),modifierDarkMat,[0,-.2,0]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.38,.012,.28),modifierDiffuserMat,[0,-.238,0]);
+        if(modifier.shape==='softgrid'){
+          for(let index=-2;index<=2;index+=1){
+            addFixtureMesh(group,type,new THREE.BoxGeometry(.012,.018,.28),modifierDarkMat,[index*.075,-.25,0]);
+            addFixtureMesh(group,type,new THREE.BoxGeometry(.38,.018,.012),modifierDarkMat,[0,-.25,index*.055]);
+          }
+        }
+      }else if(modifier.shape==='umbrella'){
+        const umbrellaMat=modifierDiffuserMat.clone();
+        umbrellaMat.userData.fixtureEmitter=true;
+        umbrellaMat.opacity=.72;
+        addFixtureMesh(group,type,new THREE.ConeGeometry(.35,.16,32,1,true),umbrellaMat,[0,-.25,0]);
+        addFixtureMesh(group,type,new THREE.CylinderGeometry(.01,.01,.38,8),modifierMetalMat,[0,-.06,0]);
+      }else if(modifier.shape==='diffusion'){
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.36,.015,.28),modifierDiffuserMat,[0,-.3,0]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.012,.025,.32),modifierDarkMat,[-.2,-.3,0]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.012,.025,.32),modifierDarkMat,[.2,-.3,0]);
+      }else if(modifier.shape==='barndoors'){
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.28,.018,.095),modifierDarkMat,[0,-.22,-.16],[-.34,0,0]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.28,.018,.095),modifierDarkMat,[0,-.22,.16],[.34,0,0]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.095,.018,.28),modifierDarkMat,[-.16,-.22,0],[0,0,.34]);
+        addFixtureMesh(group,type,new THREE.BoxGeometry(.095,.018,.28),modifierDarkMat,[.16,-.22,0],[0,0,-.34]);
+      }
+      [modifierDarkMat,modifierMetalMat,modifierDiffuserMat].forEach(material=>{
+        let used=false;
+        group.traverse(child=>{
+          const materials=Array.isArray(child.material)?child.material:[child.material];
+          if(materials.indexOf(material)>=0) used=true;
+        });
+        if(!used) material.dispose();
+      });
+    }
+
     // Transparent hit volume keeps tiny fixtures easy to grab on touchscreens.
     const hitMaterial=new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false});
     const hit=addFixtureMesh(group,type,new THREE.SphereGeometry(.23,10,8),hitMaterial,[0,0,0]);
@@ -3662,7 +3980,7 @@ initLightingHeroMotion();
     if(!state||!object) return;
     const oldGizmo=object.gizmo;
     const fixture=getFixture(state.fixtureId);
-    object.gizmo=createFixtureGizmo(type,fixture,fixtureLightColor(state));
+    object.gizmo=createFixtureGizmo(type,fixture,fixtureLightColor(state),state.modifierId);
     scene.add(object.gizmo);
     scene.remove(oldGizmo);
     disposeObjectTree(oldGizmo);
@@ -3671,21 +3989,32 @@ initLightingHeroMotion();
   function createLight(type){
     const state=lights[type];
     const fixture=getFixture(state.fixtureId);
+    const profile=getPhotometricProfile(fixture);
     const color=fixtureLightColor(state);
-    const spot=new THREE.SpotLight(color,1,18,Math.PI/4,fixture.softness,2);
-    // One shadow-casting source keeps the diagram readable without multiplying
-    // expensive real-time shadow-map renders for every auxiliary light.
-    spot.castShadow=type==='key';
-    const shadowMapSize=window.innerWidth>=760&&renderer.capabilities.maxTextureSize>=2048?1024:512;
-    spot.shadow.mapSize.set(shadowMapSize,shadowMapSize);
-    spot.shadow.camera.near=0.4;
-    spot.shadow.camera.far=14;
-    spot.shadow.bias=-0.00035;
-    if('normalBias' in spot.shadow) spot.shadow.normalBias=0.018;
-    scene.add(spot);
-    scene.add(spot.target);
+    const target=new THREE.Object3D();
+    const offsets=emitterLayout(profile);
+    const spots=offsets.map((offset,index)=>{
+      const spot=new THREE.SpotLight(color,1,18,Math.PI/4,state.softness,2);
+      spot.target=target;
+      // Mobile and balanced tiers keep one shadow map. High-end desktop also
+      // permits the main Back/Rim source while auxiliary area emitters remain
+      // shadow-free to avoid multiplying GPU memory and draw calls.
+      spot.castShadow=index===0&&(type==='key'||(RENDER_TIER==='photometric'&&type==='back'));
+      if(spot.castShadow){
+        const shadowMapSize=RENDER_TIER==='performance'?512:1024;
+        spot.shadow.mapSize.set(shadowMapSize,shadowMapSize);
+        spot.shadow.camera.near=0.4;
+        spot.shadow.camera.far=14;
+        spot.shadow.bias=-0.00035;
+        if('normalBias' in spot.shadow) spot.shadow.normalBias=0.018;
+      }
+      spot.userData.emitterOffset=offset;
+      scene.add(spot);
+      return spot;
+    });
+    scene.add(target);
 
-    const gizmo=createFixtureGizmo(type,fixture,color);
+    const gizmo=createFixtureGizmo(type,fixture,color,state.modifierId);
     scene.add(gizmo);
 
     const beamMat=new THREE.MeshBasicMaterial({
@@ -3695,13 +4024,20 @@ initLightingHeroMotion();
     const beam=new THREE.Mesh(buildBeamGeometry(),beamMat);
     scene.add(beam);
 
-    lightObjs[type]={spot,gizmo,beam};
+    lightObjs[type]={spot:spots[0],spots,target,offsets,gizmo,beam};
   }
   function disposeLightObj(o){
     if(!o) return;
-    scene.remove(o.spot,o.spot.target,o.gizmo,o.beam);
+    (o.spots||[o.spot]).forEach(spot=>scene.remove(spot));
+    scene.remove(o.target||o.spot.target,o.gizmo,o.beam);
     disposeObjectTree(o.gizmo);
     o.beam.geometry.dispose(); o.beam.material.dispose();
+  }
+  function rebuildLightObject(type){
+    const oldObject=lightObjs[type];
+    if(oldObject) disposeLightObj(oldObject);
+    createLight(type);
+    updateLightTransform(type);
   }
   const transformCenter=new THREE.Vector3();
   const transformTarget=new THREE.Vector3();
@@ -3716,7 +4052,8 @@ initLightingHeroMotion();
     const position=item&&item.querySelector('.dg-used-light-position');
     const state=lights[type];
     const fixture=getFixture(state.fixtureId);
-    if(position) position.textContent=fixtureName(fixture)+' · '+Math.round(state.cct)+'K · มุม '+Math.round(state.az)+'°';
+    const modifier=getModifier(state.modifierId);
+    if(position) position.textContent=fixtureName(fixture)+' · '+modifier.short+' · '+formatLux(effectiveFixtureOutput(state))+' · '+Math.round(state.cct)+'K · มุม '+Math.round(state.az)+'°';
   }
 
   function updateLightTransform(type){
@@ -3727,31 +4064,39 @@ initLightingHeroMotion();
     const targetPoint=isBg ? transformTarget.set(0,SUBJECT_CENTER.y,BACKDROP_Z+0.03) : SUBJECT_CENTER;
     const pos=orbitToVec3(st.az,st.el,st.dist,orbitCenter,transformPos);
 
-    o.spot.position.copy(pos);
-    o.spot.target.position.copy(targetPoint);
     const fixture=getFixture(st.fixtureId);
-    st.spread=THREE.MathUtils.clamp(st.spread,fixture.beamMin,fixture.beamMax);
+    const profile=getPhotometricProfile(fixture);
+    const modifier=getModifier(st.modifierId);
+    const beamRange=beamControlRange(st);
+    st.spread=THREE.MathUtils.clamp(st.spread,beamRange.min,beamRange.max);
+    st.softness=THREE.MathUtils.clamp(st.softness,0,1);
+    const beamAngle=effectiveBeamAngle(st);
     const lightColor=new THREE.Color(fixtureLightColor(st));
-    o.spot.color.copy(lightColor);
     o.beam.material.color.copy(lightColor);
-    o.spot.angle=THREE.MathUtils.degToRad(Math.min(st.spread/2,70));
-    o.spot.penumbra=THREE.MathUtils.clamp(fixture.softness,0,1);
-    // With physicallyCorrectLights enabled this value behaves like luminous
-    // intensity and falls off by distance squared. Narrow Fresnel beams gain
-    // centre intensity while broad panels/tubes spread the same source output.
-    o.spot.intensity=st.intensity*18*fixtureOutputScale(fixture)*beamConcentration(st.spread);
 
     const dir=transformDir.copy(pos).sub(targetPoint).normalize();
     const quat=transformQuat.setFromUnitVectors(transformUp,dir);
     o.gizmo.position.copy(pos);
     o.gizmo.quaternion.copy(quat);
+    o.target.position.copy(targetPoint);
+    const renderIntensity=Math.min(2500,photometricCandela(st)*PHOTOMETRIC_RENDER_SCALE);
+    const emitterIntensity=renderIntensity/Math.max(1,o.spots.length);
+    o.spots.forEach(spot=>{
+      emitterOffsetWorld.copy(spot.userData.emitterOffset).applyQuaternion(quat);
+      spot.position.copy(pos).add(emitterOffsetWorld);
+      spot.color.copy(lightColor);
+      spot.angle=THREE.MathUtils.degToRad(Math.min(beamAngle/2,75));
+      spot.penumbra=st.softness;
+      spot.intensity=emitterIntensity;
+      if(spot.castShadow&&spot.shadow) spot.shadow.radius=1+st.softness*3.5*modifier.sourceScale;
+    });
 
     const dist=pos.distanceTo(targetPoint);
-    const radius=Math.max(dist*Math.tan(THREE.MathUtils.degToRad(st.spread/2)),0.05);
+    const radius=Math.max(dist*Math.tan(THREE.MathUtils.degToRad(beamAngle/2)),0.05);
     o.beam.scale.set(radius,Math.max(dist,0.1),radius);
     o.beam.position.copy(pos).lerp(targetPoint,0.5);
     o.beam.quaternion.copy(quat);
-    o.beam.material.opacity=THREE.MathUtils.clamp(0.035+st.intensity*.085,0.025,.14);
+    o.beam.material.opacity=THREE.MathUtils.clamp((0.03+st.intensity*.07)*modifier.spill*modifier.transmission,0.012,.13);
     updateFixtureEmitter(type);
     updateUsedLightPosition(type);
     if(selectedLightType===type) updateSelectionMarkerPosition();
@@ -3762,10 +4107,11 @@ initLightingHeroMotion();
     if(!o) return;
     updateLightTransform(type);
     if(!gsapReady) return;
-    const finalIntensity=o.spot.intensity, finalOpacity=o.beam.material.opacity;
-    o.spot.intensity=0; o.beam.material.opacity=0; o.gizmo.scale.setScalar(0.001);
-    gsap.killTweensOf([o.spot,o.beam.material,o.gizmo.scale]);
-    gsap.to(o.spot,{intensity:finalIntensity,duration:0.7,ease:'power2.out'});
+    const finalIntensities=o.spots.map(spot=>spot.intensity), finalOpacity=o.beam.material.opacity;
+    o.spots.forEach(spot=>{spot.intensity=0;});
+    o.beam.material.opacity=0; o.gizmo.scale.setScalar(0.001);
+    gsap.killTweensOf([].concat(o.spots,[o.beam.material,o.gizmo.scale]));
+    o.spots.forEach((spot,index)=>gsap.to(spot,{intensity:finalIntensities[index],duration:0.7,ease:'power2.out'}));
     gsap.to(o.beam.material,{opacity:finalOpacity,duration:0.7,ease:'power2.out'});
     gsap.to(o.gizmo.scale,{x:1,y:1,z:1,duration:0.55,ease:'back.out(2)'});
   }
@@ -3774,17 +4120,36 @@ initLightingHeroMotion();
     const state=lights[type];
     if(!state||!getFixture(fixtureId)) return;
     const fixture=getFixture(fixtureId);
+    const profile=getPhotometricProfile(fixture);
     state.fixtureId=fixture.id;
-    state.spread=fixture.beamDefault;
+    state.spread=profile.beam;
     state.cct=fixture.cctDefault;
     state.rgbColor='#ffffff';
     state.colorMode='cct';
+    state.modifierId='none';
+    state.softness=fixture.softness;
     selectedFixtureId=fixture.id;
-    replaceFixtureGizmo(type);
-    updateLightTransform(type);
+    rebuildLightObject(type);
     renderFixturePicker();
     renderPanel();
     selectLight(type,true);
+    markCustomSetup('เปลี่ยนรุ่นโคมและกำลังแสงด้วยตัวเอง');
+  }
+  function setLightModifier(type,modifierId){
+    const state=lights[type];
+    if(!state) return;
+    const fixture=getFixture(state.fixtureId);
+    const resolvedId=resolveModifierId(fixture,modifierId);
+    const modifier=getModifier(resolvedId);
+    state.modifierId=resolvedId;
+    state.softness=modifierSoftness(fixture,modifier);
+    const beamRange=beamControlRange(state);
+    state.spread=(beamRange.min+beamRange.max)/2;
+    replaceFixtureGizmo(type);
+    updateLightTransform(type);
+    renderPanel();
+    selectLight(type,true);
+    markCustomSetup('เลือก Modifier และปรับคุณภาพแสงด้วยตัวเอง');
   }
 
   function addLightType(type){
@@ -3793,10 +4158,12 @@ initLightingHeroMotion();
       return;
     }
     lights[type]=createLightState(type);
+    if(!applyingPreset) syncStageAmbient(true);
     createLight(type);
     popInLight(type);
     renderPanel();
     selectLight(type,true);
+    markCustomSetup('เพิ่มไฟและจัดตำแหน่งด้วยตัวเอง');
     if(gsapReady && !prefersReducedMotion){
       const tool=document.querySelector(`.dg-tool[data-type="${type}"]`);
       gsap.fromTo(tool,{scale:0.96},{scale:1,duration:0.35,ease:'back.out(2)',clearProps:'transform'});
@@ -3808,11 +4175,12 @@ initLightingHeroMotion();
     const wasSelected=selectedLightType===type;
     delete lights[type];
     delete lightObjs[type];
+    if(!applyingPreset) syncStageAmbient(true);
     if(wasSelected) selectedLightType=Object.keys(lights)[0]||null;
     if(o && gsapReady){
-      gsap.killTweensOf([o.spot,o.beam.material,o.gizmo.scale]);
+      gsap.killTweensOf([].concat(o.spots,[o.beam.material,o.gizmo.scale]));
       gsap.timeline({onComplete:()=>disposeLightObj(o)})
-        .to(o.spot,{intensity:0,duration:0.3,ease:'power2.in'},0)
+        .to(o.spots,{intensity:0,duration:0.3,ease:'power2.in'},0)
         .to(o.beam.material,{opacity:0,duration:0.3,ease:'power2.in'},0)
         .to(o.gizmo.scale,{x:0.001,y:0.001,z:0.001,duration:0.26,ease:'power2.in'},0);
     } else if(o){
@@ -3820,40 +4188,82 @@ initLightingHeroMotion();
     }
     renderPanel();
     if(wasSelected&&selectedLightType) selectLight(selectedLightType,true);
+    markCustomSetup('ลบไฟและแก้ชุดแสงด้วยตัวเอง');
   }
   window.dgRemove=removeLightType;
   window.dgClear=function(){
     Object.values(lightObjs).forEach(o=>{
-      if(gsapReady) gsap.killTweensOf([o.spot,o.beam.material,o.gizmo.scale]);
+      if(gsapReady) gsap.killTweensOf([].concat(o.spots,[o.beam.material,o.gizmo.scale]));
       disposeLightObj(o);
     });
     lightObjs={}; lights={};
+    syncStageAmbient(true);
     selectedLightType=null;
     renderPanel();
+    setPresetStatus(null,'ยังไม่มีไฟในฉาก เลือก Preset หรือเริ่มจาก Key Light');
   };
   window.dgPreset=function(name){
-    const p=PRESETS[name];
-    if(!p) return;
-    Object.keys(p).forEach(type=>{
-      const target=p[type];
+    const preset=PRESETS[name];
+    if(!preset) return;
+    const presetLights=preset.lights;
+    const targetTypes=Object.keys(presetLights);
+    applyingPreset=true;
+    Object.keys(lights).forEach(type=>{
+      if(targetTypes.indexOf(type)<0) removeLightType(type);
+    });
+    targetTypes.forEach(type=>{
+      const target=presetLights[type];
+      const recommendedFixture=(PRESET_RECOMMENDED_FIXTURES[name]||{})[type]||selectedFixtureId;
+      const targetConfig=Object.assign({fixtureId:recommendedFixture},target);
       if(!lights[type]){
-        lights[type]=createLightState(type,target);
+        lights[type]=createLightState(type,targetConfig);
         createLight(type);
         popInLight(type);
       } else {
         const st=lights[type];
-        if(gsapReady){
+        const targetState=createLightState(type,targetConfig);
+        const fixtureChanged=st.fixtureId!==targetState.fixtureId;
+        const modifierChanged=st.modifierId!==targetState.modifierId;
+        st.fixtureId=targetState.fixtureId;
+        st.modifierId=targetState.modifierId;
+        st.colorMode=targetState.colorMode;
+        st.rgbColor=targetState.rgbColor;
+        if(fixtureChanged){
+          st.spread=targetState.spread;
+          st.softness=targetState.softness;
+          rebuildLightObject(type);
+        }else if(modifierChanged){
+          replaceFixtureGizmo(type);
+          updateLightTransform(type);
+        }
+        if(gsapReady&&!prefersReducedMotion){
           gsap.killTweensOf(st);
-          gsap.to(st,{az:target.az,el:target.el,dist:target.dist,duration:0.9,ease:'power3.inOut',
-            onUpdate:()=>{ updateLightTransform(type); renderReadout(); }});
+          gsap.to(st,{
+            az:targetState.az,el:targetState.el,dist:targetState.dist,spread:targetState.spread,
+            intensity:targetState.intensity,cct:targetState.cct,softness:targetState.softness,
+            duration:0.9,ease:'power3.inOut',
+            onUpdate:()=>{ updateLightTransform(type); scheduleReadout(); },
+            onComplete:()=>{ updateLightTransform(type); scheduleReadout(); }
+          });
         } else {
-          Object.assign(st,target);
+          Object.assign(st,targetState);
           updateLightTransform(type);
         }
       }
     });
+    syncStageAmbient(true);
+    applyingPreset=false;
+    setPresetStatus(name);
     renderPanel();
-    if(!selectedLightType&&Object.keys(lights).length) selectLight(Object.keys(lights)[0],true);
+    selectedLightType=targetTypes[0]||null;
+    if(selectedLightType) selectLight(selectedLightType,true);
+    if(presetFinalizeTimer) window.clearTimeout(presetFinalizeTimer);
+    presetFinalizeTimer=window.setTimeout(()=>{
+      renderPanel();
+      scheduleReadout();
+      setPresetStatus(name);
+      presetFinalizeTimer=null;
+    },prefersReducedMotion?0:940);
   };
   document.querySelectorAll('.dg-tool').forEach(tool=>{
     tool.setAttribute('role','button');
@@ -3889,6 +4299,7 @@ initLightingHeroMotion();
     keys.forEach((type,index)=>{
       const meta=TYPE_META[type], st=lights[type];
       const fixture=getFixture(st.fixtureId);
+      const modifier=getModifier(st.modifierId);
       const item=document.createElement('button');
       item.type='button';
       item.className='dg-used-light-item';
@@ -3900,7 +4311,7 @@ initLightingHeroMotion();
         <span class="dg-used-light-symbol" aria-hidden="true">✦</span>
         <span class="dg-used-light-copy">
           <span class="dg-used-light-name">${index+1}. ${meta.label}</span>
-          <span class="dg-used-light-position">${fixtureName(fixture)} · ${Math.round(st.cct)}K · มุม ${Math.round(st.az)}°</span>
+          <span class="dg-used-light-position">${fixtureName(fixture)} · ${modifier.short} · ${formatLux(effectiveFixtureOutput(st))} · ${Math.round(st.cct)}K</span>
         </span>
         <span class="dg-used-light-locate" aria-hidden="true">◎</span>`;
       item.addEventListener('click',()=>selectLight(type,true));
@@ -3922,6 +4333,8 @@ initLightingHeroMotion();
     keys.forEach(type=>{
       const meta=TYPE_META[type], st=lights[type];
       const fixture=getFixture(st.fixtureId);
+      const modifier=getModifier(st.modifierId);
+      const beamRange=beamControlRange(st);
       const row=document.createElement('div');
       row.className='dg-light-row';
       row.dataset.type=type;
@@ -3929,15 +4342,23 @@ initLightingHeroMotion();
       row.innerHTML=`
         <div class="dg-light-row-head">
           <span class="dg-light-row-dot" style="background:${meta.cssVar};color:${meta.cssVar}"></span>
-          <span class="dg-light-row-name">${meta.label}</span>
+          <span class="dg-light-row-name">${meta.label} · ${modifier.short}</span>
           <button class="dg-light-row-remove" aria-label="ลบ">✕</button>
         </div>
         <div class="dg-row-fixture">
           <label>รุ่นไฟ</label>
           <select class="dg-row-fixture-select" aria-label="เลือกรุ่นอุปกรณ์สำหรับ ${meta.label}">${fixtureOptions(fixture.id)}</select>
         </div>
+        <div class="dg-row-modifier">
+          <label>Modifier</label>
+          <select class="dg-row-modifier-select" aria-label="เลือก Modifier สำหรับ ${meta.label}">${modifierOptions(modifier.id,fixture)}</select>
+        </div>
+        <div class="dg-modifier-note">${modifierSummary(st)}</div>
         <div class="dg-slider-line"><label>ระยะ</label><input type="range" min="1.4" max="6" step="0.1" value="${st.dist}" data-k="dist" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="dist">${st.dist.toFixed(1)}m</span></div>
-        <div class="dg-slider-line"><label>Beam</label><input type="range" min="${fixture.beamMin}" max="${fixture.beamMax}" step="1" value="${st.spread}" data-k="spread" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="spread">${Math.round(st.spread)}°</span></div>
+        ${beamRange.adjustable
+          ?`<div class="dg-slider-line"><label>Beam</label><input type="range" min="${beamRange.min}" max="${beamRange.max}" step="1" value="${st.spread}" data-k="spread" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="spread">${Math.round(effectiveBeamAngle(st))}°</span></div>`
+          :`<div class="dg-slider-line"><label>Beam</label><span class="dg-fixed-spec">Fixed by optic · ${Math.round(effectiveBeamAngle(st))}°</span></div>`}
+        <div class="dg-slider-line"><label>Softness</label><input type="range" min="0" max="100" step="1" value="${Math.round(st.softness*100)}" data-k="softness" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="softness">${Math.round(st.softness*100)}%</span></div>
         <div class="dg-slider-line"><label>Dimmer</label><input type="range" min="0" max="100" step="1" value="${Math.round(st.intensity*100)}" data-k="intensity" style="accent-color:${meta.cssVar}"><span class="dg-slider-val" data-val="intensity">${Math.round(st.intensity*100)}%</span></div>
         ${fixture.cctMin===fixture.cctMax
           ?`<div class="dg-slider-line"><label>CCT</label><span class="dg-fixed-spec">Fixed · ${fixture.cctDefault}K</span></div>`
@@ -3949,16 +4370,23 @@ initLightingHeroMotion();
       row.querySelector('.dg-row-fixture-select').addEventListener('change',event=>{
         setLightFixture(type,event.currentTarget.value);
       });
+      row.querySelector('.dg-row-modifier-select').addEventListener('change',event=>{
+        setLightModifier(type,event.currentTarget.value);
+      });
       row.querySelectorAll('input[type=range]').forEach(inp=>{
         inp.addEventListener('input',()=>{
           const k=inp.dataset.k, v=parseFloat(inp.value);
-          lights[type][k]=k==='intensity'?v/100:v;
+          lights[type][k]=(k==='intensity'||k==='softness')?v/100:v;
+          if(k==='intensity') syncStageAmbient(true);
           if(k==='cct') lights[type].colorMode='cct';
           row.querySelector(`[data-val="${k}"]`).textContent = k==='dist'
             ?v.toFixed(1)+'m'
-            :(k==='spread'?Math.round(v)+'°':(k==='cct'?Math.round(v)+'K':Math.round(v)+'%'));
+            :(k==='spread'?Math.round(effectiveBeamAngle(lights[type]))+'°':(k==='cct'?Math.round(v)+'K':Math.round(v)+'%'));
           updateLightTransform(type);
+          const modifierNote=row.querySelector('.dg-modifier-note');
+          if(modifierNote) modifierNote.textContent=modifierSummary(lights[type]);
           scheduleReadout();
+          markCustomSetup('ปรับตำแหน่งหรือคุณภาพแสงด้วยตัวเอง');
         });
       });
       const colorInput=row.querySelector('input[type=color]');
@@ -3968,6 +4396,7 @@ initLightingHeroMotion();
           lights[type].colorMode='rgb';
           updateLightTransform(type);
           scheduleReadout();
+          markCustomSetup('เลือกสี RGB ของไฟด้วยตัวเอง');
         });
       }
       activeLightsEl.appendChild(row);
@@ -3991,14 +4420,149 @@ initLightingHeroMotion();
     if(readoutFrame!==null) return;
     readoutFrame=requestAnimationFrame(flushReadout);
   }
+  function renderAnalysis(){
+    if(!analysisStateEl||!analysisMetricsEl||!analysisAdviceEl) return;
+    const keys=Object.keys(lights);
+    if(!keys.length){
+      analysisStateEl.className='dg-analysis-state warn';
+      analysisStateEl.textContent='ยังไม่มีไฟ';
+      analysisMetricsEl.innerHTML=[
+        ['—','Key : Fill'],['—','Illuminance'],['—','EV100 โดยประมาณ'],['—','Beam ของ Key']
+      ].map(metric=>'<div class="dg-analysis-metric"><b>'+metric[0]+'</b><span>'+metric[1]+'</span></div>').join('');
+      analysisAdviceEl.innerHTML='<div class="dg-analysis-tip warn">เริ่มจาก Key Light หนึ่งดวง แล้วสังเกตทิศทางและความแข็งของเงาก่อนเพิ่ม Fill หรือ Back Light</div>';
+      return;
+    }
+
+    const outputs={};
+    let totalOutput=0;
+    let totalWatts=0;
+    let weightedCct=0;
+    let cctWeight=0;
+    const cctValues=[];
+    let hasRgb=false;
+    let categoryProfileCount=0;
+    let derivedProfileCount=0;
+    let totalEmitters=0;
+    let shadowSources=0;
+    keys.forEach(type=>{
+      const state=lights[type];
+      const fixture=getFixture(state.fixtureId);
+      const profile=getPhotometricProfile(fixture);
+      const output=effectiveFixtureOutput(state);
+      outputs[type]=output;
+      totalOutput+=output;
+      totalWatts+=profile.powerDraw;
+      if(profile.quality==='category') categoryProfileCount+=1;
+      if(profile.quality==='derived') derivedProfileCount+=1;
+      const object=lightObjs[type];
+      if(object){
+        totalEmitters+=object.spots.length;
+        shadowSources+=object.spots.filter(spot=>spot.castShadow).length;
+      }
+      if(fixture.rgb&&state.colorMode==='rgb'){
+        hasRgb=true;
+      }else{
+        cctValues.push(state.cct);
+        weightedCct+=state.cct*Math.max(output,.001);
+        cctWeight+=Math.max(output,.001);
+      }
+    });
+
+    const key=lights.key;
+    const fill=lights.fill;
+    const keyOutput=key?outputs.key:0;
+    const fillOutput=fill?outputs.fill:0;
+    const ratio=key&&fill&&fillOutput>0?keyOutput/fillOutput:(key?Infinity:null);
+    const ratioText=ratio===null?'—':(Number.isFinite(ratio)?Math.min(ratio,999).toFixed(1)+':1':'∞:1');
+    const estimatedEv100=totalOutput>0?Math.log2(totalOutput/2.5):null;
+    const evText=estimatedEv100===null?'—':'EV '+estimatedEv100.toFixed(1);
+    const averageCct=cctWeight>0?Math.round(weightedCct/cctWeight/100)*100:null;
+    const cctDelta=cctValues.length>1?Math.max.apply(null,cctValues)-Math.min.apply(null,cctValues):0;
+    const cctText=averageCct?(averageCct+'K'+(hasRgb?' + RGB':'')):(hasRgb?'RGB':'—');
+    let keyBeamText='—';
+    let keySoftnessText='—';
+    let keyBeamDiameter=null;
+    if(key){
+      const keyAngle=effectiveBeamAngle(key);
+      keyBeamDiameter=2*key.dist*Math.tan(THREE.MathUtils.degToRad(keyAngle/2));
+      keyBeamText=keyBeamDiameter.toFixed(1)+'m · '+Math.round(keyAngle)+'°';
+      keySoftnessText=key.softness<.3?'Hard':(key.softness<.68?'Medium':'Soft');
+      keySoftnessText+=' · '+Math.round(key.softness*100)+'%';
+    }
+
+    const metrics=[
+      [ratioText,'Key : Fill โดยประมาณ'],
+      [formatLux(totalOutput),'Illuminance รวมที่ตัวแบบ'],
+      [evText,'Incident EV100 โดยประมาณ'],
+      [keyBeamText,'พื้นที่ Beam ที่ตัวแบบ'],
+      [keySoftnessText,'คุณภาพเงาของ Key'],
+      [cctText,'CCT เฉลี่ยแบบถ่วงกำลัง'],
+      [Math.round(totalWatts).toLocaleString()+'W','Power Draw รวมก่อนเผื่อวงจร'],
+      [RENDER_TIER_LABEL,totalEmitters+' emitter · '+shadowSources+' shadow source']
+    ];
+    analysisMetricsEl.innerHTML=metrics.map(metric=>
+      '<div class="dg-analysis-metric"><b title="'+metric[0]+'">'+metric[0]+'</b><span>'+metric[1]+'</span></div>'
+    ).join('');
+
+    const tips=[];
+    const intentionalSilhouette=currentPresetName==='silhouette';
+    const intentionalHorror=currentPresetName==='horror';
+    const intentionalCinematic=currentPresetName==='cinematic';
+    if(!key){
+      tips.push({tone:intentionalSilhouette?'good':'danger',text:intentionalSilhouette
+        ?'ไม่มี Key Light ตามเจตนาของ Silhouette — ตรวจให้ Back และ Background แยกขอบตัวแบบชัดพอ'
+        :'ยังไม่มี Key Light จึงประเมินทิศทางหลักและ Contrast บนตัวแบบไม่ได้'});
+    }else{
+      const keyAz=Math.abs(((key.az+180)%360+360)%360-180);
+      if(keyAz<12) tips.push({tone:'warn',text:'Key อยู่ใกล้แกนกล้องมาก ภาพจะค่อนข้างแบน ลองเยื้องประมาณ 25–45° หากต้องการมิติใบหน้า'});
+      else if(keyAz<=60) tips.push({tone:'good',text:'Key อยู่ในช่วง 25–60° ซึ่งเหมาะสำหรับสร้างมิติใบหน้าและควบคุมเงาได้ง่าย'});
+      else if(keyAz>78) tips.push({tone:'warn',text:'Key อยู่ด้านข้างมาก เกิด Split หรือเงาลึก เหมาะงานดราม่าแต่ควรตรวจรายละเอียดฝั่งเงา'});
+      if(key.el<2) tips.push({tone:intentionalHorror?'good':'danger',text:intentionalHorror
+        ?'Key จากมุมต่ำเป็นเจตนาของ Horror และจะสร้างเงาผิดธรรมชาติบนใบหน้า'
+        :'Key ต่ำกว่าระดับใบหน้า อาจเกิดเงาย้อนที่ดูไม่เป็นธรรมชาติ'});
+      if(key.el>62) tips.push({tone:'warn',text:'Key สูงมาก อาจทำให้เบ้าตามืดและเงาใต้จมูกยาว ควรตรวจ Catchlight และเพิ่ม Fill ใต้ใบหน้า'});
+      if(keyBeamDiameter!==null&&keyBeamDiameter<.9) tips.push({tone:'warn',text:'Beam ของ Key แคบกว่าพื้นที่ตัวแบบโดยประมาณ เสี่ยงเกิด Hotspot หรือแสงตกไม่ทั่ว'});
+      if(getModifier(key.modifierId).id==='none'&&key.softness<.5) tips.push({tone:'warn',text:'Key ยังใช้ตัวโคมเดิมและค่อนข้างแข็ง ลอง Softbox หรือ Diffusion เมื่อต้องการผิวและเงาที่นุ่มขึ้น'});
+    }
+    if(ratio!==null&&Number.isFinite(ratio)){
+      if(ratio<1.3) tips.push({tone:currentPresetName==='highkey'?'good':'warn',text:'Key และ Fill ใกล้เคียงกันมาก ภาพจะเป็น High Key หรือคอนทราสต์ต่ำ'});
+      else if(ratio<=4) tips.push({tone:'good',text:'Key–Fill Ratio อยู่ในช่วงใช้งานง่าย เหมาะกับ Portrait และ Interview ทั่วไป'});
+      else if(ratio>8) tips.push({tone:'warn',text:'Key–Fill Ratio สูงมาก ฝั่งเงาอาจสูญเสียรายละเอียด เหมาะเมื่อจงใจทำ Low Key หรือ Dramatic'});
+    }else if(key&&!fill){
+      tips.push({tone:currentPresetName==='lowkey'?'good':'warn',text:'ไม่มี Fill Light ทำให้คอนทราสต์สูง ตรวจว่าฝั่งเงายังมีรายละเอียดตามที่ต้องการ'});
+    }
+    if(cctDelta>1800){
+      tips.push({tone:(intentionalCinematic||intentionalHorror)?'good':'warn',text:(intentionalCinematic||intentionalHorror)
+        ?'มี Mixed CCT ตามเจตนาของ Preset ควรตั้ง White Balance ให้รักษาความต่างสีที่ต้องการ'
+        :'CCT ต่างกันมากกว่า 1,800K อาจทำให้สีผิวไม่สม่ำเสมอ หากไม่ได้ตั้งใจควรปรับให้ใกล้กัน'});
+    }
+    if(key&&lights.back&&outputs.back>keyOutput*1.6) tips.push({tone:'warn',text:'Back / Rim แรงกว่า Key มาก อาจเกิดขอบขาวหรือ Highlight Clip บริเวณผมและไหล่'});
+    if(totalWatts>1800) tips.push({tone:'danger',text:'กำลังโคมรวมเกินประมาณ 1,800W ควรตรวจพิกัดปลั๊ก สายไฟ และแยกวงจรหน้างานจริง'});
+    if(categoryProfileCount) tips.push({tone:'warn',text:'มีไฟ '+categoryProfileCount+' ดวงที่ใช้โปรไฟล์มาตรฐานตามประเภทโคม เพราะชื่ออุปกรณ์ไม่มีรหัสรุ่นหรือข้อมูล Photometric ครบ'});
+    else if(derivedProfileCount) tips.push({tone:'good',text:'ค่าบางดวงคำนวณจาก Lumen/Beam ของผู้ผลิต และอาจต่างจากการวัดจริงตาม Modifier กับ CCT'});
+    if(!tips.length) tips.push({tone:'good',text:'ชุดไฟอยู่ในช่วงสมดุล ลองขยับ Key ทีละ 5–10° เพื่อสังเกตการเปลี่ยนรูปเงา'});
+    analysisAdviceEl.innerHTML=tips.slice(0,5).map(tip=>'<div class="dg-analysis-tip '+tip.tone+'">'+tip.text+'</div>').join('');
+
+    let stateText='กำลังวิเคราะห์';
+    let stateTone='warn';
+    if(intentionalSilhouette){stateText='Silhouette · Intentional';stateTone='good';}
+    else if(!key){stateText='ยังขาด Key Light';stateTone='danger';}
+    else if(ratio!==null&&Number.isFinite(ratio)&&ratio<1.3){stateText='High Key / Flat';stateTone='warn';}
+    else if(ratio!==null&&Number.isFinite(ratio)&&ratio<=4){stateText='Balanced';stateTone='good';}
+    else if(!fill||ratio>8){stateText='High Contrast';stateTone='warn';}
+    else{stateText='Dramatic';stateTone='good';}
+    analysisStateEl.className='dg-analysis-state '+stateTone;
+    analysisStateEl.textContent=stateText;
+  }
   function renderReadout(){
     readoutEl.innerHTML='';
     const keys=Object.keys(lights);
-    if(!keys.length) return;
-    const camVec=CAM_MARKER.clone().sub(SUBJECT_CENTER); camVec.y=0;
+    if(!keys.length){ renderAnalysis(); return; }
+    const camVec=CAMERA_REFERENCE.clone().sub(SUBJECT_CENTER); camVec.y=0;
     keys.forEach(type=>{
       const st=lights[type];
       const fixture=getFixture(st.fixtureId);
+      const modifier=getModifier(st.modifierId);
       const pos=orbitToVec3(st.az,st.el,st.dist);
       const flat=pos.clone().sub(SUBJECT_CENTER); flat.y=0;
       const az=THREE.MathUtils.radToDeg(camVec.angleTo(flat));
@@ -4006,7 +4570,7 @@ initLightingHeroMotion();
       const side= cross>0.001 ? 'ขวา':(cross<-0.001?'ซ้าย':'กลาง');
       const item=document.createElement('div');
       item.className='dg-readout-item';
-      item.innerHTML=`<div class="dg-readout-val" style="color:${TYPE_META[type].cssVar}">${Math.round(az)}° ${side} · ${Math.round(st.el)}° สูง</div><div class="dg-readout-key">${TYPE_META[type].label} · ${fixtureName(fixture)} · ${Math.round(st.cct)}K · ${Math.round(st.intensity*100)}%</div>`;
+      item.innerHTML=`<div class="dg-readout-val" style="color:${TYPE_META[type].cssVar}">${Math.round(az)}° ${side} · ${Math.round(st.el)}° สูง · ${formatLux(effectiveFixtureOutput(st))}</div><div class="dg-readout-key">${TYPE_META[type].label} · ${fixtureName(fixture)} · ${modifier.short} · Beam ${Math.round(effectiveBeamAngle(st))}° · ${Math.round(st.cct)}K · ${Math.round(st.intensity*100)}%</div>`;
       readoutEl.appendChild(item);
     });
     if(lights.key && lights.fill){
@@ -4022,6 +4586,7 @@ initLightingHeroMotion();
       item.innerHTML=`<div class="dg-readout-val" style="color:var(--tungsten)">${ratioText}</div><div class="dg-readout-key">Lighting Ratio โดยประมาณ (Key:Fill) · ${stopText}</div>`;
       readoutEl.appendChild(item);
     }
+    renderAnalysis();
   }
 
   /* ---------- drag light around subject (arc-ball on invisible sphere) ---------- */
@@ -4030,6 +4595,7 @@ initLightingHeroMotion();
   let dragType=null;
   let dragAzTo=null;
   let dragElTo=null;
+  let dragHasMoved=false;
 
   function setNDC(clientX,clientY){
     const r=canvas.getBoundingClientRect();
@@ -4079,6 +4645,7 @@ initLightingHeroMotion();
     const type=pickLight(clientX,clientY);
     if(type){
       dragType=type;
+      dragHasMoved=false;
       selectLight(type,true);
       controls.enabled=false;
       if(pointerId!=null&&canvas.setPointerCapture){
@@ -4100,6 +4667,10 @@ initLightingHeroMotion();
   }
   function moveLightDrag(clientX,clientY){
     if(!dragType) return;
+    if(!dragHasMoved){
+      dragHasMoved=true;
+      markCustomSetup('ขยับตำแหน่งไฟด้วยตัวเอง');
+    }
     dragToAngles(clientX,clientY,dragType);
   }
   function endLightDrag(pointerId){
@@ -4149,8 +4720,9 @@ initLightingHeroMotion();
   function resize(){
     const r=wrap.getBoundingClientRect();
     const w=Math.max(1,r.width), h=Math.max(1,r.height);
-    const coarsePointer=window.matchMedia&&window.matchMedia('(pointer:coarse)').matches;
-    const nextPixelRatio=Math.min(window.devicePixelRatio||1,(coarsePointer||w<900)?1.25:1.75);
+    const tierPixelRatio=RENDER_TIER==='performance'?1:(RENDER_TIER==='balanced'?1.35:1.75);
+    const viewportPixelRatio=w<520?Math.min(tierPixelRatio,1.1):tierPixelRatio;
+    const nextPixelRatio=Math.min(window.devicePixelRatio||1,viewportPixelRatio);
     if(nextPixelRatio!==currentPixelRatio){
       currentPixelRatio=nextPixelRatio;
       renderer.setPixelRatio(currentPixelRatio);
@@ -4159,6 +4731,7 @@ initLightingHeroMotion();
     renderer.setSize(w,h,false);
   }
   window.addEventListener('resize',resize);
+  window.addEventListener('orientationchange',()=>window.setTimeout(resize,80),{passive:true});
   if(window.visualViewport) window.visualViewport.addEventListener('resize',resize,{passive:true});
   if('ResizeObserver' in window) new ResizeObserver(resize).observe(wrap);
 
@@ -4241,7 +4814,7 @@ initLightingHeroMotion();
   /* ---------- init ---------- */
   resize();
   renderPanel();
-  hudEl.textContent='f/4 · 1/125 · ISO 200';
+  hudEl.textContent='f/4 · 1/125 · ISO 200 · '+RENDER_TIER_LABEL;
   requestAnimationFrame(()=>{
     resize();
     renderer.render(scene,camera);
