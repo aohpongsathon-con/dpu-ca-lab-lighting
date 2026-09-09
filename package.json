@@ -1,0 +1,9 @@
+{
+  "name": "dpu-ca-lab-lighting",
+  "private": true,
+  "scripts": {
+    "sync": "node scripts/sync-entry.mjs",
+    "test": "node scripts/sync-entry.mjs --check && node scripts/validate-html-js.mjs lighting-production.html && node scripts/validate-diagram-fixtures.mjs lighting-production.html && node scripts/validate-diagram-learning.mjs lighting-production.html && node scripts/validate-responsive.mjs lighting-production.html && node scripts/validate-photometric.mjs lighting-production.html"
+  },
+  "engines": { "node": ">=20" }
+}
