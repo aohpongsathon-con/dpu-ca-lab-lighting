@@ -135,22 +135,8 @@ if (html.includes("hero-learning-icon") || html.includes("hero-learning-copy")) 
   throw new Error("The previous top-left Lighting logo is still present");
 }
 
-const alphaTestTokens = [
-  ".topnav-alpha::before",
-  "background:rgba(239,68,68,.12)",
-  "border:1px solid rgba(239,68,68,.35)",
-  "@keyframes alphaBlink{0%,100%{opacity:1}50%{opacity:.25}}",
-  "<div class=\"topnav-alpha\">Creator Lab · Alpha Test v.2.0 (ทดสอบระบบ)</div>",
-  "<!-- Alpha badge — sits just below navbar, centered -->",
-  "animation:alphaBlink 1.4s ease-in-out infinite"
-];
-const missingAlphaTest = alphaTestTokens.filter((token) => !html.includes(token));
-if (missingAlphaTest.length) {
-  throw new Error(`Missing copied Alpha Test badge: ${missingAlphaTest.join(", ")}`);
-}
-const alphaTextCount = (html.match(/Creator Lab · Alpha Test v\.2\.0 \(ทดสอบระบบ\)/g) || []).length;
-if (alphaTextCount !== 2) {
-  throw new Error(`Expected Alpha Test text in topnav and Home, found ${alphaTextCount}`);
+if (/Creator Lab · Alpha Test|class="(?:topnav-alpha|hero-alpha-badge)"/.test(html)) {
+  throw new Error('Release page still contains an Alpha Test badge');
 }
 
 const compatibilityTokens = [
@@ -428,7 +414,7 @@ if (missingHandlerFunctions.length) {
 
 console.log(
   `Validated ${scripts.length} inline scripts, ${requiredTokens.length} GSAP/3D hooks, ` +
-  `${supportTokens.length} original contact hooks, 6 social icons, the original top-left logo, 2 Alpha Test badges, ` +
+  `${supportTokens.length} original contact hooks, 6 social icons, the original top-left logo, no Alpha Test badges, ` +
   `${compatibilityTokens.length} compatibility fallbacks, ${localAssetReferences.length} local asset references, ` +
   `${fontReferences.length} local font references, ${homeContrastTokens.length} home contrast checks, ${registeredPages.length} routes, ` +
   `${diagramLightListTokens.length} used-lights selection checks, ${new Set(inlineHandlerFunctions).size} inline-handler functions, ` +
